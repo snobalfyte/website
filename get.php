@@ -84,7 +84,7 @@ styleUpper('downloads');
 if(!$autoDl) {
     echo '<div class="ui segment">
     <h3>Download using aria2</h3>
-    <p>You can quickly download these filest at once using aria2. Click button that can be found below to start.</p>
+    <p>You can quickly download these files at once using aria2. Click button that can be found below to start.</p>
     <a class="ui fluid labeled icon blue button" href="'.$loc.'autodl=1">
         <i class="download icon"></i>
         Download using aria2
