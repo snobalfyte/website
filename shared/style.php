@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$websiteVersion = '3.0.0-beta.1';
+$websiteVersion = '3.0.0-beta.2';
 
 function styleUpper($pageType = 'home') {
     global $websiteVersion;

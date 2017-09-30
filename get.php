@@ -92,7 +92,7 @@ if(!$autoDl) {
 </div>';
 } else {
     echo '<div class="ui icon message">
-    <i class="notched circle loading icon"></i>
+    <i class="download icon"></i>
     <div class="content">
         <div class="header">Downloading files...</div>
         <p>These files below are currently downloaded using aria2. Check console window of this project for progress.</p>
@@ -145,6 +145,52 @@ $totalSize = round($totalSize).$sizeType.'B';
 <div class="ui info message">
     <i class="info icon"></i>
     Total size of files: <?php echo $totalSize ?>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui icon positive message">
+    <i class="terminal icon"></i>
+    <div class="content">
+        <div class="header">File renaming script</div>
+        <p>The script that can be found below can be used to quickly rename downloaded files.<br>
+        Simply copy contents of the form below to new file with <code>cmd</code> extension, put it in folder with downloaded files and run.</p>
+    </div>
+</div>
+
+<div class="ui form">
+    <div class="field">
+        <textarea readonly rows="30" style="font-family: monospace;">
+@echo off
+<?php
+foreach($filesKeys as $val) {
+    echo 'rename "%~dp0'.$files[$val]['uuid'].'" "'.$val."\"\n";
+}
+?>
+</textarea>
+    </div>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui icon positive message">
+    <i class="check circle outline icon"></i>
+    <div class="content">
+        <div class="header">SHA-1 checksums file</div>
+        <p>You can use this file to quickly verify that files were downloaded correctly.</p>
+    </div>
+</div>
+
+<div class="ui form">
+    <div class="field">
+        <textarea readonly rows="30" style="font-family: monospace;">
+<?php
+foreach($filesKeys as $val) {
+    echo $files[$val]['sha1'].' *'.$val."\n";
+}
+?>
+</textarea>
+    </div>
 </div>
 
 <?php
