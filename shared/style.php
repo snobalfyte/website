@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$websiteVersion = '3.0.0-beta.2';
+$websiteVersion = '3.0.0-beta.3';
 
 function styleUpper($pageType = 'home') {
     global $websiteVersion;
@@ -79,5 +79,74 @@ function styleLower() {
         </div>
     </body>
 </html>';
+}
+
+function fancyError($errorCode = 'ERROR', $pageType = 'home') {
+    switch ($errorCode) {
+        case 'ERROR':
+            $errorFancy = 'Generic error.';
+            break;
+        case 'NO_FILEINFO_DIR':
+            $errorFancy = 'The <i>fileinfo</i> directory does not exist.';
+            break;
+        case 'UNKNOWN_ARCH':
+            $errorFancy = 'Unknown processor architecture.';
+            break;
+        case 'UNKNOWN_RING':
+            $errorFancy = 'Unknown ring.';
+            break;
+        case 'UNKNOWN_FLIGHT':
+            $errorFancy = 'Unknown flight.';
+            break;
+        case 'UNKNOWN_COMBINATION':
+            $errorFancy = 'The flight and ring combination is not correct. Skip ahead is only supported for Insider Fast ring.';
+            break;
+        case 'ILLEGAL_BUILD':
+            $errorFancy = 'Specified build number is less than 15063 or larger than 65536.';
+            break;
+        case 'EMPTY_FILELIST':
+            $errorFancy = 'Server has returned an empty list of files.';
+            break;
+        case 'UNSUPPORTED_LANG':
+            $errorFancy = 'Specified language is not supported.';
+            break;
+        case 'UNSPECIFIED_LANG':
+            $errorFancy = 'Language was not specified.';
+            break;
+        case 'UNSUPPORTED_EDITION':
+            $errorFancy = 'Specified edition is not supported.';
+            break;
+        case 'UNSUPPORTED_COMBINATION':
+            $errorFancy = 'The language and edition combination is not correct.';
+            break;
+        case 'UPDATE_INFORMATION_NOT_EXISTS':
+            $errorFancy = 'Information about specified update doest not exist in database.';
+            break;
+        case 'KEY_NOT_EXISTS':
+            $errorFancy = 'Specified key does not exist in update information';
+            break;
+        case 'UNSPECIFIED_UPDATE':
+            $errorFancy = 'Update ID was not specified.';
+            break;
+        default:
+            $errorFancy = '<i>Error message is not available.</i><br><br>'.$errorCode;
+            break;
+    }
+
+    styleUpper($pageType);
+
+    echo '<div class="ui horizontal divider">
+    <h3><i class="warning icon"></i>Request not successful</h3>
+</div>
+<div class="ui negative icon message">
+    <i class="remove circle icon"></i>
+    <div class="content">
+        <div class="header">An error has occurred</div>
+        <p>We have encountered an error while processing your request.<br>
+        '.$errorFancy.'</p>
+    </div>
+</div>';
+
+    styleLower();
 }
 ?>

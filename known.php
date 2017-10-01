@@ -19,7 +19,8 @@ require_once 'api/listid.php';
 require_once 'shared/style.php';
 $ids = uupListIds();
 if(isset($ids['error'])) {
-    die($ids['error']);
+    fancyError($ids['error'], 'downloads');
+    die();
 }
 
 $ids = $ids['builds'];

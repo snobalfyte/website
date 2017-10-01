@@ -17,13 +17,14 @@ limitations under the License.
 
 $updateId = isset($_GET['id']) ? $_GET['id'] : 0;
 
-if(!$updateId) {
-    die('Update ID is not specified');
-}
-
 require_once 'api/listlangs.php';
 require_once 'api/updateinfo.php';
 require_once 'shared/style.php';
+
+if(!$updateId) {
+    fancyError('UNSPECIFIED_UPDATE', 'downloads');
+    die();
+}
 
 $updateTitle = uupUpdateInfo($updateId, 'title');
 if(isset($updateTitle['error'])) {

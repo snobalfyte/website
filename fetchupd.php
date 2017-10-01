@@ -25,7 +25,8 @@ require_once 'shared/style.php';
 
 $fetchedUpdate = uupFetchUpd($arch, $ring, $flight, $build);
 if(isset($fetchedUpdate['error'])) {
-    die($fetchedUpdate['error']);
+    fancyError($fetchedUpdate['error'], 'downloads');
+    die();
 }
 
 styleUpper('downloads');

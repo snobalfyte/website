@@ -18,14 +18,15 @@ limitations under the License.
 $updateId = isset($_GET['id']) ? $_GET['id'] : 0;
 $selectedLang = isset($_GET['pack']) ? $_GET['pack'] : 0;
 
-if(!$updateId) {
-    die('Update ID is not specified');
-}
-
 require_once 'api/listlangs.php';
 require_once 'api/listeditions.php';
 require_once 'api/updateinfo.php';
 require_once 'shared/style.php';
+
+if(!$updateId) {
+    fancyError('UNSPECIFIED_UPDATE', 'downloads');
+    die();
+}
 
 $updateTitle = uupUpdateInfo($updateId, 'title');
 if(isset($updateTitle['error'])) {
@@ -42,7 +43,8 @@ if($selectedLang) {
 
     $editions = uupListEditions($selectedLang);
     if(isset($editions['error'])) {
-        die($editions['error']);
+        fancyError($editions['error'], 'downloads');
+        die();
     }
     $editions = $editions['editionFancyNames'];
     asort($editions);

@@ -28,7 +28,8 @@ require_once 'shared/style.php';
 
 $files = uupGetFiles($updateId, $usePack, $desiredEdition);
 if(isset($files['error'])) {
-    die($files['error']);
+    fancyError($files['error'], 'downloads');
+    die();
 }
 
 $updateName = $files['updateName'];
@@ -66,7 +67,9 @@ if($autoDl) {
     usort($filesKeys, 'sortBySize');
 
     $safeName = preg_replace('/\\|\/|:|\*|\?|"|<|>|\|/', '_', $updateName);
-    $downDir = $safeName.'/'.$updateArch.'/'.$usePack;
+    $langDir = $usePack ? $usePack : 'all';
+
+    $downDir = $safeName.'/'.$updateArch.'/'.$langDir;
 
     foreach($filesKeys as $val) {
         sendToAria2($files[$val]['url'], $val, $files[$val]['sha1'], $downDir);
