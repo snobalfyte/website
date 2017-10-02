@@ -15,6 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+$aria2SupportEnabled = 1;
+
 function sortBySize($a, $b) {
     global $files;
 
@@ -26,6 +28,13 @@ function sortBySize($a, $b) {
 }
 
 function sendToAria2($url, $name, $sha1, $dir) {
+    global $aria2SupportEnabled;
+
+    if(!$aria2SupportEnabled) {
+        fancyError('ARIA2_SUPPORT_NOT_ENABLED', 'downloads');
+        die();
+    }
+
     $data = array(
         'jsonrpc' => '2.0',
         'id' => null,

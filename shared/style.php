@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$websiteVersion = '3.0.0-beta.4';
+$websiteVersion = '3.0.0-beta.5';
 
 function styleUpper($pageType = 'home') {
     global $websiteVersion;
@@ -127,6 +127,9 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home') {
             break;
         case 'UNSPECIFIED_UPDATE':
             $errorFancy = 'Update ID was not specified.';
+            break;
+        case 'ARIA2_SUPPORT_NOT_ENABLED':
+            $errorFancy = 'Support of aria2 has been disabled.';
             break;
         default:
             $errorFancy = '<i>Error message is not available.</i><br><br>'.$errorCode;

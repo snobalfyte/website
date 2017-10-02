@@ -26,6 +26,18 @@ require_once 'api/get.php';
 require_once 'shared/get.php';
 require_once 'shared/style.php';
 
+$aria2Param = 'autodl=1';
+$aria2ActionInfo = 'Click button that can be found below to start.';
+
+if(!$aria2SupportEnabled) {
+    if($autoDl) {
+        fancyError('ARIA2_SUPPORT_NOT_ENABLED', 'downloads');
+        die();
+    }
+    $aria2Param = 'aria2=1';
+    $aria2ActionInfo = 'Click button that can be found below to generate aria2 script.';
+}
+
 $files = uupGetFiles($updateId, $usePack, $desiredEdition);
 if(isset($files['error'])) {
     fancyError($files['error'], 'downloads');
@@ -87,8 +99,8 @@ styleUpper('downloads');
 if(!$autoDl) {
     echo '<div class="ui segment">
     <h3>Download using aria2</h3>
-    <p>You can quickly download these files at once using aria2. Click button that can be found below to start.</p>
-    <a class="ui fluid labeled icon blue button" href="'.$loc.'autodl=1">
+    <p>You can quickly download these files at once using aria2. '.$aria2ActionInfo.'</p>
+    <a class="ui fluid labeled icon blue button" href="'.$loc.$aria2Param.'">
         <i class="download icon"></i>
         Download using aria2
     </a>
