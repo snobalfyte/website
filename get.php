@@ -80,7 +80,7 @@ styleUpper('downloads');
 ?>
 
 <div class="ui horizontal divider">
-    <h3><i class="list icon"></i><?php echo $updateName?></h3>
+    <h3><i class="list icon"></i><?php echo $updateName.' '.$updateArch; ?></h3>
 </div>
 
 <?php

@@ -28,12 +28,24 @@ if(!$updateId) {
     die();
 }
 
-$updateTitle = uupUpdateInfo($updateId, 'title');
+$updateInfo = uupUpdateInfo($updateId);
+$updateInfo = isset($updateInfo['info']) ? $updateInfo['info'] : array();
+
+$updateTitle = uupParseUpdateInfo($updateInfo, 'title');
 if(isset($updateTitle['error'])) {
     $updateTitle = 'Unknown update: '.$updateId;
 } else {
     $updateTitle = $updateTitle['info'];
 }
+
+$updateArch = uupParseUpdateInfo($updateInfo, 'arch');
+if(isset($updateArch['error'])) {
+    $updateArch = '';
+} else {
+    $updateArch = $updateArch['info'];
+}
+
+$updateTitle = $updateTitle.' '.$updateArch;
 
 if($selectedLang) {
     $langs = uupListLangs();
@@ -63,14 +75,14 @@ styleUpper('downloads');
     <form class="ui form" action="./get.php" method="get">
         <div class="field">
             <label>Update</label>
-            <input type="text" disabled value="<?php echo $updateTitle ?>">
-            <input type="hidden" name="id" value="<?php echo $updateId ?>">
+            <input type="text" disabled value="<?php echo $updateTitle; ?>">
+            <input type="hidden" name="id" value="<?php echo $updateId; ?>">
         </div>
 
         <div class="field">
             <label>Language</label>
-            <input type="text" disabled value="<?php echo $selectedLangName ?>">
-            <input type="hidden" name="pack" value="<?php echo $selectedLang ?>">
+            <input type="text" disabled value="<?php echo $selectedLangName; ?>">
+            <input type="hidden" name="pack" value="<?php echo $selectedLang; ?>">
         </div>
 
         <div class="field">
