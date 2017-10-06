@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// Change this to disable aria2 local downloads support
 $aria2SupportEnabled = 1;
 
 function sortBySize($a, $b) {

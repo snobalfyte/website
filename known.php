@@ -24,6 +24,12 @@ if(isset($ids['error'])) {
 }
 
 $ids = $ids['builds'];
+
+if(empty($ids)) {
+    fancyError('NO_BUILDS_IN_FILEINFO', 'downloads');
+    die();
+}
+
 styleUpper('downloads');
 ?>
 <div class="ui horizontal divider">

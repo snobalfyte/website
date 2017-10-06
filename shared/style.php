@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$websiteVersion = '3.0.0-beta.5';
+require_once dirname(__FILE__).'/main.php';
 
 function styleUpper($pageType = 'home') {
     global $websiteVersion;
@@ -86,8 +86,14 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
         case 'ERROR':
             $errorFancy = 'Generic error.';
             break;
+        case 'UNSUPPORTED_API':
+            $errorFancy = 'Installed API version is not compatible with this version of UUP dump.';
+            break;
         case 'NO_FILEINFO_DIR':
             $errorFancy = 'The <i>fileinfo</i> directory does not exist.';
+            break;
+        case 'NO_BUILDS_IN_FILEINFO':
+            $errorFancy = 'The <i>fileinfo</i> database does not contain any build.';
             break;
         case 'UNKNOWN_ARCH':
             $errorFancy = 'Unknown processor architecture.';
@@ -106,6 +112,9 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
             break;
         case 'EMPTY_FILELIST':
             $errorFancy = 'Server has returned an empty list of files.';
+            break;
+        case 'NO_FILES':
+            $errorFancy = 'There are no files available for your selection.';
             break;
         case 'UNSUPPORTED_LANG':
             $errorFancy = 'Specified language is not supported.';
