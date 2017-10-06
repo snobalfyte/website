@@ -110,8 +110,11 @@ if(!$autoDl) {
     <i class="download icon"></i>
     <div class="content">
         <div class="header">Downloading files...</div>
-        <p>These files below are currently downloaded using aria2. Check console window '.
-        'of this project or <a href="/aria2ui/index.html">aria2 WebUI</a> for progress.</p>
+        <p>These files below are currently downloaded using aria2. Check console window of this project or aria2 WebUI for progress.</p>
+        <a class="ui fluid labeled icon black button" href="/aria2ui/index.html" target="_blank">
+            <i class="external icon"></i>
+            Open aria2 Web UI in new tab
+        </a>
     </div>
 </div>';
 }

@@ -60,7 +60,19 @@ function sendToAria2($url, $name, $sha1, $dir) {
     curl_setopt($req, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($req, CURLOPT_POSTFIELDS, $postData);
 
-    curl_exec($req);
+    $out = curl_exec($req);
     curl_close($req);
+
+    if(empty($out)) {
+        fancyError('ARIA2_CONNECT_FAIL', 'downloads');
+        die();
+    }
+
+    $out = json_decode($out, true);
+    if(isset($out['error'])) {
+        $errorMsg = '<br><i>'.$out['error']['message'].'</i>';
+        fancyError('ARIA2_RPC_ERROR', 'downloads', $errorMsg);
+        die();
+    }
 }
 ?>

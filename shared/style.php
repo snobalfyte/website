@@ -81,7 +81,7 @@ function styleLower() {
 </html>';
 }
 
-function fancyError($errorCode = 'ERROR', $pageType = 'home') {
+function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
     switch ($errorCode) {
         case 'ERROR':
             $errorFancy = 'Generic error.';
@@ -131,9 +131,19 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home') {
         case 'ARIA2_SUPPORT_NOT_ENABLED':
             $errorFancy = 'Support of aria2 has been disabled.';
             break;
+        case 'ARIA2_CONNECT_FAIL':
+            $errorFancy = 'Could not connect to aria2 RPC.';
+            break;
+        case 'ARIA2_RPC_ERROR':
+            $errorFancy = 'Aria2 RPC has returned an error.';
+            break;
         default:
             $errorFancy = '<i>Error message is not available.</i><br><br>'.$errorCode;
             break;
+    }
+
+    if($moreText) {
+        $errorFancy = $errorFancy.'<br>'.$moreText;
     }
 
     styleUpper($pageType);
