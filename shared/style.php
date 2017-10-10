@@ -74,7 +74,11 @@ function styleLower() {
 
     echo '<div class="footer">
                 <div class="ui divider"></div>
-                <p><i><b>UUP dump</b> v'.$websiteVersion.' &copy; '.date('Y').' UUP dump authors</i></p>
+                <p><i>
+                    <b>UUP dump</b> v'.$websiteVersion.'
+                    (<b>API</b> v'.uupApiVersion().')
+                    &copy; '.date('Y').' UUP dump authors
+                </i></p>
             </div>
         </div>
     </body>
