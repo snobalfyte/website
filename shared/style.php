@@ -114,6 +114,12 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
         case 'ILLEGAL_BUILD':
             $errorFancy = 'Specified build number is less than 15063 or larger than 65536.';
             break;
+        case 'ILLEGAL_MINOR':
+            $errorFancy = 'Specified build minor incorrect.';
+            break;
+        case 'NO_UPDATE_FOUND':
+            $errorFancy = 'Server did not return any updates.';
+            break;
         case 'EMPTY_FILELIST':
             $errorFancy = 'Server has returned an empty list of files.';
             break;

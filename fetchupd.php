@@ -19,11 +19,12 @@ $arch = isset($_GET['arch']) ? $_GET['arch'] : 'amd64';
 $ring = isset($_GET['ring']) ? $_GET['ring'] : 'WIF';
 $flight = isset($_GET['flight']) ? $_GET['flight'] : 'Active';
 $build = isset($_GET['build']) ? intval($_GET['build']) : 16251;
+$minor = isset($_GET['minor']) ? intval($_GET['minor']) : 0;
 
 require_once 'api/fetchupd.php';
 require_once 'shared/style.php';
 
-$fetchedUpdate = uupFetchUpd($arch, $ring, $flight, $build);
+$fetchedUpdate = uupFetchUpd($arch, $ring, $flight, $build, $minor);
 if(isset($fetchedUpdate['error'])) {
     fancyError($fetchedUpdate['error'], 'downloads');
     die();
