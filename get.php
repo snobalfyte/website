@@ -135,6 +135,7 @@ foreach($filesKeys as $val) {
     $totalSize = $totalSize + $files[$val]['size'];
     $size = $files[$val]['size'];
 
+    $sizeType = '';
     if($size > 1024) {
         $size = $size / 1024;
         $sizeType = 'K';
@@ -149,6 +150,7 @@ foreach($filesKeys as $val) {
     echo '<td><code>'.$files[$val]['sha1'].'</code></td><td>'.$size.'</td></tr>'."\n";
 }
 
+$sizeType = '';
 if($totalSize > 1024) {
     $totalSize = $totalSize / 1024;
     $sizeType = 'K';
