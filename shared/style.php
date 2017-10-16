@@ -138,6 +138,9 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
         case 'UNSUPPORTED_COMBINATION':
             $errorFancy = 'The language and edition combination is not correct.';
             break;
+        case 'NOT_CUMULATIVE_UPDATE':
+            $errorFancy = 'Selected update does not contain Cumulative Update.';
+            break;
         case 'UPDATE_INFORMATION_NOT_EXISTS':
             $errorFancy = 'Information about specified update doest not exist in database.';
             break;

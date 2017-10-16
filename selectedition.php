@@ -61,7 +61,13 @@ if($selectedLang) {
     $editions = $editions['editionFancyNames'];
     asort($editions);
 } else {
+    $editions = array();
     $selectedLangName = 'All languages';
+}
+
+if(isset($updateInfo['containsCU']) && $updateInfo['containsCU'] = 1) {
+    $temp = array('updateOnly' => 'Update only');
+    $editions = array_merge($temp, $editions);
 }
 
 styleUpper('downloads');
@@ -90,10 +96,8 @@ styleUpper('downloads');
             <select class="ui search dropdown" name="edition">
                 <option value="0">All editions</option>
 <?php
-if($selectedLang) {
-    foreach($editions as $key => $val) {
-        echo '<option value="'.$key.'">'.$val."</option>\n";
-    }
+foreach($editions as $key => $val) {
+    echo '<option value="'.$key.'">'.$val."</option>\n";
 }
 ?>
             </select>
