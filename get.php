@@ -30,12 +30,9 @@ $aria2Param = 'autodl=1';
 $aria2ActionInfo = 'Click button that can be found below to start.';
 
 if(!$aria2SupportEnabled) {
-    if($autoDl) {
-        fancyError('ARIA2_SUPPORT_NOT_ENABLED', 'downloads');
-        die();
-    }
-    $aria2Param = 'aria2=1';
-    $aria2ActionInfo = 'Click button that can be found below to generate aria2 script.';
+    $aria2ActionInfo = '<br>Click button that can be found below to generate and download script that will download everyting automatically.
+<br>The downloaded scripts needs the file aria2c.exe to be placed in the same directory.
+<br><br>Aria2 can be downloaded from <a href="https://aria2.github.io/">https://aria2.github.io/</a>.';
 }
 
 $files = uupGetFiles($updateId, $usePack, $desiredEdition);
@@ -83,8 +80,15 @@ if($autoDl) {
 
     $downDir = $safeName.'/'.$updateArch.'/'.$langDir;
 
-    foreach($filesKeys as $val) {
-        sendToAria2($files[$val]['url'], $val, $files[$val]['sha1'], $downDir);
+    if($aria2SupportEnabled) {
+        foreach($filesKeys as $val) {
+            sendToAria2($files[$val]['url'], $val, $files[$val]['sha1'], $downDir);
+        }
+    } else {
+        header('Content-Type: text/pain');
+        header('Content-Disposition: attachment; filename=aria2_download.cmd');
+        createAria2DownloadScript($filesKeys, $files, $downDir);
+        die();
     }
 }
 

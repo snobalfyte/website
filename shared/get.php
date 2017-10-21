@@ -76,4 +76,56 @@ function sendToAria2($url, $name, $sha1, $dir) {
         die();
     }
 }
+
+function createAria2DownloadScript($filesKeys, $files, $dir) {
+    echo '@echo off
+cd /d "%~dp0"
+
+set "aria2=aria2c.exe"
+set "aria2Script=aria2_script.txt"
+set "destDir='.$dir.'"
+
+if NOT EXIST %aria2% goto NO_ARIA2_ERROR
+erase /q /s "%aria2Script%" >NUL 2>&1';
+
+    echo "\n\n";
+    foreach($filesKeys as $val) {
+        $url = $files[$val]['url'];
+        $safeUrl = preg_replace('/&/', '^&', $url);
+        $safeUrl = preg_replace('/%/', '%%', $safeUrl);
+        $safeUrl = preg_replace('/</', '^<', $safeUrl);
+        $safeUrl = preg_replace('/>/', '^>', $safeUrl);
+        $safeUrl = preg_replace('/\|/', '^|', $safeUrl);
+
+        echo 'echo '.$safeUrl.">>\"%aria2Script%\"\n";
+        echo 'echo  out='.$val.">>\"%aria2Script%\"\n";
+        echo 'echo  checksum=sha-1='.$files[$val]['sha1'].">>\"%aria2Script%\"\n";
+        echo "echo.>>\"%aria2Script%\"\n";
+    }
+    echo "\n";
+
+    echo 'echo Starting download of files...
+%aria2% -x16 -s16 -j5 -c -R -d"%destDir%" -i"%aria2Script%"
+if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
+
+erase /q /s "%aria2Script%" >NUL 2>&1
+goto EOF
+
+:NO_ARIA2_ERROR
+echo We couldn\'t find %aria2% in current directory.
+echo.
+echo You can download aria2 from:
+echo https://aria2.github.io/
+echo.
+pause
+goto EOF
+
+:DOWNLOAD_ERROR
+echo We have encountered an error while downloading files.
+pause
+goto EOF
+
+:EOF';
+    echo "\n";
+}
 ?>
