@@ -31,7 +31,7 @@ $aria2ActionInfo = 'Click button that can be found below to start.';
 
 if(!$aria2SupportEnabled) {
     $aria2ActionInfo = '<br>Click button that can be found below to generate and download script that will download everyting automatically.
-<br>The downloaded scripts needs the file aria2c.exe to be placed in the same directory.
+<br>The downloaded script needs the file aria2c.exe to be placed in the same directory.
 <br><br>Aria2 can be downloaded from <a href="https://aria2.github.io/">https://aria2.github.io/</a>.';
 }
 
