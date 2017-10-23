@@ -40,6 +40,7 @@ styleUpper('downloads');
                 <option value="wif">Insider Fast</option>
                 <option value="wis">Insider Slow</option>
                 <option value="rp">Release Preview</option>
+                <option value="retail">Retail</option>
             </select>
         </div>
 
