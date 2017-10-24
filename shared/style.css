@@ -18,6 +18,7 @@ limitations under the License.
 	color: #dcddde;
 	background-image: url('pattern.png');
 	background-color: #1b1c1d;
+	background-attachment: fixed;
 	padding: 0.75em;
 }
 
