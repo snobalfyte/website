@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-.header {
+.page-header {
 	color: #dcddde;
 	background-image: url('pattern.png');
 	background-color: #1b1c1d;
@@ -22,12 +22,12 @@ limitations under the License.
 	padding: 0.75em;
 }
 
-.header .title {
+.page-header .title {
 	padding-top: 0.25em;
 	padding-bottom: 1em;
 }
 
-.header .version {
+.page-header .version {
 	position: relative;
 	bottom: 0.5rem;
 }

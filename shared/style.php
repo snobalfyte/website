@@ -52,7 +52,7 @@ function styleUpper($pageType = 'home') {
         <title>UUP dump</title>
     </head>
     <body>
-        <div class="header">
+        <div class="page-header">
             <div class="ui title container">
                 <h1>UUP dump
                     <p class="ui left pointing white version label">
