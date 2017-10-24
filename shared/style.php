@@ -52,18 +52,18 @@ function styleUpper($pageType = 'home') {
         <title>UUP dump</title>
     </head>
     <body>
-        <div class="ui attached black segment">
-            <div class="ui container">
+        <div class="header">
+            <div class="ui title container">
                 <h1>UUP dump
-                    <p class="ui left pointing black version label">
+                    <p class="ui left pointing white version label">
                         v'.$websiteVersion.'
                     </p>
                 </h1>
             </div>
-        </div>
 
-        <div class="ui attached stackable menu">
-            <div class="ui container">'.$navbarLink.'</div>
+            <div class="ui attached secondary inverted stackable menu">
+                <div class="ui container">'.$navbarLink.'</div>
+            </div>
         </div>
 
         <div class="ui container">';
