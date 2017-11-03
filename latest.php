@@ -44,19 +44,24 @@ styleUpper('downloads');
             </select>
         </div>
 
-        <div class="inline field" style="margin-bottom: 0.2rem;">
-            <label>Options</label>
+        <div class="field">
+            <label>Build number to use while fetching</label>
+            <select class="ui search dropdown" name="build">
+                <option value="15063.0">15063.0</option>
+                <option value="15063.674">15063.674</option>
+                <option value="16251.0" selected>16251.0</option>
+                <option value="16299.0">16299.0</option>
+                <option value="16299.15">16299.15</option>
+                <option value="16299.19">16299.19</option>
+                <option value="17025.1000">17025.1000</option>
+            </select>
         </div>
-        <div class="inline field">
+
+        <div class="field">
+            <label>Skip ahead flight</label>
             <div class="ui checkbox">
                 <input type="checkbox" name="flight" value="skip">
-                <label>Skip ahead flighting (Insider Fast only)</label>
-            </div>
-        </div>
-        <div class="inline field">
-            <div class="ui checkbox">
-                <input type="checkbox" name="build" value="15063">
-                <label>Fetch using older build (useful for Release Preview)</label>
+                <label>Use skip ahead flighting (Insider Fast only)</label>
             </div>
         </div>
 
