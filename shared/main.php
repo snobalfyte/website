@@ -16,8 +16,8 @@ limitations under the License.
 */
 
 // Website information
-$websiteVersion = '3.5.0';
-$requiredApi = '1.6.0';
+$websiteVersion = '3.5.1';
+$requiredApi = '1.6.1';
 
 require_once dirname(__FILE__).'/../api/shared/main.php';
 function checkApi() {
@@ -35,9 +35,11 @@ function checkApi() {
         die();
     }
 
-    if($apiVer['patch'] < $reqApi['patch']) {
-        fancyError('UNSUPPORTED_API');
-        die();
+    if($apiVer['minor'] == $reqApi['minor']) {
+        if($apiVer['patch'] < $reqApi['patch']) {
+            fancyError('UNSUPPORTED_API');
+            die();
+        }
     }
 }
 

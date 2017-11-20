@@ -187,9 +187,10 @@ $totalSize = round($totalSize).$sizeType.'B';
     <div class="field">
         <textarea readonly rows="30" style="font-family: monospace;">
 @echo off
+cd /d "%~dp0"
 <?php
 foreach($filesKeys as $val) {
-    echo 'rename "%~dp0'.$files[$val]['uuid'].'" "'.$val."\"\n";
+    echo 'rename "'.$files[$val]['uuid'].'" "'.$val."\"\n";
 }
 ?>
 </textarea>
