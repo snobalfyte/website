@@ -40,8 +40,8 @@ function styleUpper($pageType = 'home') {
 
         <meta property="og:title" content="UUP dump">
         <meta property="og:type" content="website">
-        <meta property="og:description" content="On this website you can easily download UUP files from Windows Update servers.">
-        <meta property="og:image" content="https://i.imgur.com/pGs1s3q.png">
+        <meta property="og:description" content="Download UUP files from Windows Update servers with ease. This project is not affiliated with Microsoft Corporation.">
+        <meta property="og:image" content="https://i.imgur.com/vRZYmUt.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2/dist/semantic.min.css">
         <link rel="stylesheet" href="shared/style.css">
@@ -54,8 +54,9 @@ function styleUpper($pageType = 'home') {
     <body>
         <div class="page-header">
             <div class="ui title container">
-                <h1>UUP dump
-                    <p class="ui left pointing white version label">
+                <h1>
+                    <img src="shared/img/logo.png" class="logo">UUP dump
+                    <p class="version">
                         v'.$websiteVersion.'
                     </p>
                 </h1>
@@ -77,7 +78,12 @@ function styleLower() {
                 <p><i>
                     <b>UUP dump</b> v'.$websiteVersion.'
                     (<b>API</b> v'.uupApiVersion().')
-                    &copy; '.date('Y').' UUP dump authors
+                    &copy; '.date('Y').' UUP dump authors.
+
+                    <span class="info">
+                        This project is not affiliated with Microsoft Corporation.
+                        Windows is registered trademark of Microsoft Corporation.
+                    </span>
                 </i></p>
             </div>
         </div>

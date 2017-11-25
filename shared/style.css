@@ -16,22 +16,41 @@ limitations under the License.
 
 .page-header {
 	color: #dcddde;
-	background-image: url('pattern.png');
-	background-color: #1b1c1d;
-	background-attachment: fixed;
+	background-image: url('img/bg.png');
+	background-repeat: no-repeat;
+	background-position: right;
+	background-size: auto 100%;
+	background-color: #000;
 	padding: 0.75em;
 }
 
 .page-header .title {
+	color: #fff;
 	padding-top: 0.25em;
 	padding-bottom: 1em;
 }
 
+.page-header .title .logo {
+	height: 48px;
+	margin-bottom: -0.45em;
+}
+
+.page-header .title h1 {
+	font-weight: 400;
+}
+
 .page-header .version {
+	display: inline;
 	position: relative;
-	bottom: 0.5rem;
+	bottom: 1em;
+	font-size: 9pt;
+	opacity: 0.5;
 }
 
 .footer {
 	margin-bottom: 1rem;
+}
+
+.footer .info {
+	opacity: 0.5;
 }
