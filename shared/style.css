@@ -26,12 +26,13 @@ limitations under the License.
 
 .page-header .title {
 	color: #fff;
-	padding-top: 0.25em;
+	padding-top: 0.3em;
 	padding-bottom: 1em;
 }
 
 .page-header .title .logo {
 	height: 48px;
+	margin-top: -0.2em;
 	margin-bottom: -0.45em;
 }
 

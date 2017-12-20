@@ -45,7 +45,7 @@ if(isset($updateArch['error'])) {
 
 $updateTitle = $updateTitle.' '.$updateArch;
 
-$langs = uupListLangs();
+$langs = uupListLangs($updateId);
 $langs = $langs['langFancyNames'];
 asort($langs);
 

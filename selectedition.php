@@ -48,12 +48,12 @@ if(isset($updateArch['error'])) {
 $updateTitle = $updateTitle.' '.$updateArch;
 
 if($selectedLang) {
-    $langs = uupListLangs();
+    $langs = uupListLangs($updateId);
     $langs = $langs['langFancyNames'];
 
     $selectedLangName = $langs[strtolower($selectedLang)];
 
-    $editions = uupListEditions($selectedLang);
+    $editions = uupListEditions($selectedLang, $updateId);
     if(isset($editions['error'])) {
         fancyError($editions['error'], 'downloads');
         die();
