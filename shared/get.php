@@ -98,8 +98,8 @@ erase /q /s "%aria2Script%" >NUL 2>&1';
         $safeUrl = preg_replace('/\|/', '^|', $safeUrl);
 
         echo 'echo '.$safeUrl.">>\"%aria2Script%\"\n";
-        echo 'echo  out='.$val.">>\"%aria2Script%\"\n";
-        echo 'echo  checksum=sha-1='.$files[$val]['sha1'].">>\"%aria2Script%\"\n";
+        echo 'echo   out='.$val.">>\"%aria2Script%\"\n";
+        echo 'echo   checksum=sha-1='.$files[$val]['sha1'].">>\"%aria2Script%\"\n";
         echo "echo.>>\"%aria2Script%\"\n";
     }
     echo "\n";
@@ -109,6 +109,7 @@ erase /q /s "%aria2Script%" >NUL 2>&1';
 if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
 
 erase /q /s "%aria2Script%" >NUL 2>&1
+pause
 goto EOF
 
 :NO_ARIA2_ERROR

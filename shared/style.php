@@ -132,6 +132,9 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
         case 'NO_FILES':
             $errorFancy = 'There are no files available for your selection.';
             break;
+        case 'NO_METADATA_ESD':
+            $errorFancy = 'There are no metadata ESD files available for your selection.';
+            break;
         case 'UNSUPPORTED_LANG':
             $errorFancy = 'Specified language is not supported.';
             break;
