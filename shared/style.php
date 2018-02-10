@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2017 UUP dump authors
+Copyright 2018 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -105,6 +105,9 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
         case 'NO_BUILDS_IN_FILEINFO':
             $errorFancy = 'The <i>fileinfo</i> database does not contain any build.';
             break;
+        case 'SEARCH_NO_RESULTS':
+            $errorFancy = 'No builds could be found for specified query.';
+            break;
         case 'UNKNOWN_ARCH':
             $errorFancy = 'Unknown processor architecture.';
             break;
@@ -121,7 +124,7 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
             $errorFancy = 'Specified build number is less than 15063 or larger than 65536.';
             break;
         case 'ILLEGAL_MINOR':
-            $errorFancy = 'Specified build minor incorrect.';
+            $errorFancy = 'Specified build minor is incorrect.';
             break;
         case 'NO_UPDATE_FOUND':
             $errorFancy = 'Server did not return any updates.';

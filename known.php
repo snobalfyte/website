@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2017 UUP dump authors
+Copyright 2018 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,9 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+$search = isset($_GET['q']) ? $_GET['q'] : null;
+
 require_once 'api/listid.php';
 require_once 'shared/style.php';
-$ids = uupListIds();
+$ids = uupListIds($search);
 if(isset($ids['error'])) {
     fancyError($ids['error'], 'downloads');
     die();
@@ -34,6 +36,21 @@ styleUpper('downloads');
 ?>
 <div class="ui horizontal divider">
     <h3><i class="cubes icon"></i>Choose build</h3>
+</div>
+
+<div class="ui top attached segment">
+    <form class="ui form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+        <div class="field">
+            <div class="ui big action input">
+                <input type="text" name="q" value="<?php echo htmlentities($search); ?>" placeholder="Search for builds...">
+                <button class="ui big blue icon button" type="submit"><i class="search icon"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="ui bottom attached success message">
+    <i class="search icon"></i>
+    We have found <b><?php echo count($ids); ?></b> builds for your query.
 </div>
 
 <table class="ui celled striped table">

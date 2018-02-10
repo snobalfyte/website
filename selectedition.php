@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2017 UUP dump authors
+Copyright 2018 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -110,7 +110,7 @@ foreach($editions as $key => $val) {
 </div>
 <div class="ui bottom attached warning message">
     <i class="warning icon"></i>
-    Clicking <i>Next</i> button will send your request to Windows Update servers.
+    Click <i>Next</i> button to send your request to Windows Update servers.
 </div>
 
 <script>$('select.dropdown').dropdown();</script>

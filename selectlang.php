@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2017 UUP dump authors
+Copyright 2018 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ styleUpper('downloads');
 </div>
 
 <div class="ui top attached segment">
-    <form class="ui form" action="./selectedition.php" method="get">
+    <form class="ui form" action="./selectedition.php" method="get" id="langForm">
         <div class="field">
             <label>Update</label>
             <input type="text" disabled value="<?php echo $updateTitle; ?>">
@@ -66,7 +66,7 @@ styleUpper('downloads');
 
         <div class="field">
             <label>Language</label>
-            <select class="ui search dropdown" name="pack">
+            <select class="ui search dropdown" name="pack" onchange="checkLanguage()">
                 <option value="0">All languages</option>
 <?php
 foreach($langs as $key => $val) {
@@ -75,18 +75,44 @@ foreach($langs as $key => $val) {
 ?>
             </select>
         </div>
-        <button class="ui fluid right labeled icon blue button" type="submit">
+        <button class="ui fluid right labeled icon blue button" id="submitForm" type="submit">
             <i class="right arrow icon"></i>
             Next
         </button>
     </form>
 </div>
-<div class="ui bottom attached info message">
+<div class="ui bottom attached info message" id="userMessage">
     <i class="info icon"></i>
     <i>All languages</i> option does not support edition selection.
 </div>
 
-<script>$('select.dropdown').dropdown();</script>
+<script>
+    $('select.dropdown').dropdown();
+
+    function checkLanguage() {
+        var form = document.getElementById('langForm');
+        var btn = document.getElementById('submitForm');
+        var msg = document.getElementById('userMessage');
+
+        if(form.pack.value == 0) {
+            form.action = './get.php';
+            btn.className = "ui fluid right labeled icon red button";
+            msg.className = "ui bottom attached warning message";
+            msg.innerHTML = '<i class="warning icon"></i>' +
+                            'Click <i>Next</i> button to send your request ' +
+                            'to Windows Update servers.';
+        } else {
+            form.action = './selectedition.php';
+            btn.className = "ui fluid right labeled icon blue button";
+            msg.className = "ui bottom attached info message";
+            msg.innerHTML = '<i class="info icon"></i>' +
+                            'Click <i>Next</i> button to select edition you ' +
+                            'want to download.';
+        }
+    }
+
+    checkLanguage();
+</script>
 
 <?php
 styleLower();

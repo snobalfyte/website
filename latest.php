@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2017 UUP dump authors
+Copyright 2018 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,8 +15,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+require_once 'api/listid.php';
 require_once 'shared/style.php';
 styleUpper('downloads');
+
+$builds = array(
+    '15063.0',
+    '15063.674',
+    '16251.0',
+    '16299.0',
+    '16299.15',
+    '16299.19',
+    '17025.1000',
+);
+
+$ids = uupListIds();
+if(isset($ids['error'])) {
+    $ids['builds'] = array();
+}
+
+$ids = $ids['builds'];
+foreach($ids as $val) {
+    $builds[] = $val['build'];
+}
+
+$builds = array_unique($builds);
+sort($builds);
 ?>
 
 <div class="ui horizontal divider">
@@ -24,7 +48,7 @@ styleUpper('downloads');
 </div>
 
 <div class="ui top attached segment">
-    <form class="ui form" action="./fetchupd.php" method="get">
+    <form class="ui form" action="./fetchupd.php" method="get" id="optionsForm">
         <div class="field">
             <label>Architecture</label>
             <select class="ui dropdown" name="arch">
@@ -36,7 +60,7 @@ styleUpper('downloads');
 
         <div class="field">
             <label>Ring</label>
-            <select class="ui dropdown" name="ring">
+            <select class="ui dropdown" name="ring" onchange="checkRing()">
                 <option value="wif">Insider Fast</option>
                 <option value="wis">Insider Slow</option>
                 <option value="rp">Release Preview</option>
@@ -47,13 +71,15 @@ styleUpper('downloads');
         <div class="field">
             <label>Build number to use while fetching</label>
             <select class="ui search dropdown" name="build">
-                <option value="15063.0">15063.0</option>
-                <option value="15063.674">15063.674</option>
-                <option value="16251.0" selected>16251.0</option>
-                <option value="16299.0">16299.0</option>
-                <option value="16299.15">16299.15</option>
-                <option value="16299.19">16299.19</option>
-                <option value="17025.1000">17025.1000</option>
+<?php
+foreach($builds as $val) {
+    if($val == '16299.15') {
+        echo '<option value="'.$val.'" selected>'.$val.'</option>';
+    } else {
+        echo '<option value="'.$val.'">'.$val.'</option>';
+    }
+}
+?>
             </select>
         </div>
 
@@ -74,12 +100,24 @@ styleUpper('downloads');
 
 <div class="ui bottom attached warning message">
     <i class="warning icon"></i>
-    Clicking <i>Fetch updates</i> button will send your request to Windows Update servers.
+    Click <i>Fetch updates</i> button to send your request to Windows Update servers.
 </div>
 
 <script>
-$('.ui.checkbox').checkbox();
-$('select.dropdown').dropdown();
+    $('.ui.checkbox').checkbox();
+    $('select.dropdown').dropdown();
+
+    function checkRing() {
+        form = document.getElementById('optionsForm');
+
+        if(form.ring.value == 'wif') {
+            form.flight.disabled = false;
+        } else {
+            form.flight.disabled = true;
+        }
+    }
+
+    checkRing();
 </script>
 
 <?php
