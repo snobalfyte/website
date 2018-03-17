@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2017 UUP dump authors
+Copyright 2018 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -165,6 +165,12 @@ if($totalSize > 1024) {
 }
 
 $totalSize = round($totalSize).$sizeType.'B';
+
+if(count($filesKeys)+3 > 30) {
+    $filesRows = 30;
+} else {
+    $filesRows = count($filesKeys)+3;
+}
 ?>
 </table>
 <div class="ui info message">
@@ -185,7 +191,7 @@ $totalSize = round($totalSize).$sizeType.'B';
 
 <div class="ui form">
     <div class="field">
-        <textarea readonly rows="30" style="font-family: monospace;">
+        <textarea readonly rows="<?php echo $filesRows ?>" style="font-family: monospace;">
 @echo off
 cd /d "%~dp0"
 <?php
@@ -209,7 +215,7 @@ foreach($filesKeys as $val) {
 
 <div class="ui form">
     <div class="field">
-        <textarea readonly rows="30" style="font-family: monospace;">
+        <textarea readonly rows="<?php echo $filesRows ?>" style="font-family: monospace;">
 <?php
 foreach($filesKeys as $val) {
     echo $files[$val]['sha1'].' *'.$val."\n";

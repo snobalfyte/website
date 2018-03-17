@@ -49,6 +49,12 @@ $langs = uupListLangs($updateId);
 $langs = $langs['langFancyNames'];
 asort($langs);
 
+if(isset($updateInfo['containsCU']) && $updateInfo['containsCU'] = 1) {
+    $containsCU = 1;
+} else {
+    $containsCU = 0;
+}
+
 styleUpper('downloads');
 ?>
 
@@ -75,6 +81,33 @@ foreach($langs as $key => $val) {
 ?>
             </select>
         </div>
+
+        <div class="grouped fields" id="filesSelection" style="display: naone;">
+            <label>Files</label>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="edition" value="0" checked disabled>
+                    <label>All files</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="edition" value="wubFile" disabled>
+                    <label>WindowsUpdateBox only</label>
+                </div>
+            </div>
+<?php
+if($containsCU) {
+    echo '<div class="field">
+    <div class="ui radio checkbox">
+        <input type="radio" name="edition" value="updateOnly" disabled>
+        <label>Update only</label>
+    </div>
+</div>';
+}
+?>
+        </div>
+
         <button class="ui fluid right labeled icon blue button" id="submitForm" type="submit">
             <i class="right arrow icon"></i>
             Next
@@ -88,11 +121,13 @@ foreach($langs as $key => $val) {
 
 <script>
     $('select.dropdown').dropdown();
+    $('.ui.radio.checkbox').checkbox();
 
     function checkLanguage() {
         var form = document.getElementById('langForm');
         var btn = document.getElementById('submitForm');
         var msg = document.getElementById('userMessage');
+        var file = document.getElementById('filesSelection');
 
         if(form.pack.value == 0) {
             form.action = './get.php';
@@ -101,6 +136,12 @@ foreach($langs as $key => $val) {
             msg.innerHTML = '<i class="warning icon"></i>' +
                             'Click <i>Next</i> button to send your request ' +
                             'to Windows Update servers.';
+
+            file.style.display = "block";
+            radioCount = form.edition.length;
+            for(i = 0; i < radioCount; i++) {
+                form.edition[i].disabled = false;
+            }
         } else {
             form.action = './selectedition.php';
             btn.className = "ui fluid right labeled icon blue button";
@@ -108,6 +149,12 @@ foreach($langs as $key => $val) {
             msg.innerHTML = '<i class="info icon"></i>' +
                             'Click <i>Next</i> button to select edition you ' +
                             'want to download.';
+
+            file.style.display = "none";
+            radioCount = form.edition.length;
+            for(i = 0; i < radioCount; i++) {
+                form.edition[i].disabled = true;
+            }
         }
     }
 
