@@ -26,13 +26,23 @@ require_once 'api/get.php';
 require_once 'shared/get.php';
 require_once 'shared/style.php';
 
-$aria2Param = 'autodl=1';
 $aria2ActionInfo = 'Click button that can be found below to start.';
 
 if(!$aria2SupportEnabled) {
-    $aria2ActionInfo = '<br>Click button that can be found below to generate and download script that will download everyting automatically.
-<br>The downloaded script needs the file aria2c.exe to be placed in the same directory.
-<br><br>Aria2 can be downloaded from <a href="https://aria2.github.io/">https://aria2.github.io/</a>.';
+    $aria2ActionInfo = '<br>Click one of buttons that can be found below to
+generate and download archive with script that will download everyting
+automatically and eventually convert it to ISO file.
+
+<br><br>The archive will contain aria2c.exe application, aria2 script, and an
+aria2_download.cmd script that will start the download.
+
+<br>If you choose option with conversion, then archive will also include a
+conversion script that will be run after successfull download.
+
+<br><br>Aria2 is an open source project. You can find it here:
+<a href="https://aria2.github.io/">https://aria2.github.io/</a>.
+<br>Conversion script by
+<a href="https://forums.mydigitallife.net/members/abbodi1406.204274/">abbodi1406</a>.';
 }
 
 $files = uupGetFiles($updateId, $usePack, $desiredEdition);
@@ -42,6 +52,7 @@ if(isset($files['error'])) {
 }
 
 $updateName = $files['updateName'];
+$updateBuild = $files['build'];
 $updateArch = $files['arch'];
 $files = $files['files'];
 $filesKeys = array_keys($files);
@@ -61,8 +72,11 @@ if($simple) {
     die();
 }
 
-if($aria2 && !$autoDl) {
+if($aria2) {
     header('Content-Type: text/plain');
+    if($autoDl) {
+        header('Content-Disposition: attachment; filename="aria2_script.txt"');
+    }
     usort($filesKeys, 'sortBySize');
     foreach($filesKeys as $val) {
         echo $files[$val]['url']."\n";
@@ -85,9 +99,17 @@ if($autoDl) {
             sendToAria2($files[$val]['url'], $val, $files[$val]['sha1'], $downDir);
         }
     } else {
-        header('Content-Type: text/pain');
-        header('Content-Disposition: attachment; filename=aria2_download.cmd');
-        createAria2DownloadScript($filesKeys, $files, $downDir);
+        $id = substr($updateId, 0, 8);
+        $archiveName = $updateBuild.'_'.$updateArch.'_'.$langDir.'_'.$id;
+
+        if($autoDl == 1) {
+            createAria2Package($filesKeys, $files, $archiveName);
+        }
+
+        if($autoDl == 2) {
+            createUupConvertPackage($filesKeys, $files, $archiveName);
+        }
+
         die();
     }
 }
@@ -103,12 +125,26 @@ styleUpper('downloads');
 if(!$autoDl) {
     echo '<div class="ui segment">
     <h3>Download using aria2</h3>
-    <p>You can quickly download these files at once using aria2. '.$aria2ActionInfo.'</p>
-    <a class="ui fluid labeled icon blue button" href="'.$loc.$aria2Param.'">
-        <i class="download icon"></i>
-        Download using aria2
-    </a>
-</div>';
+    <p>You can quickly download these files at once using aria2. '.$aria2ActionInfo.'</p>';
+
+    if($aria2SupportEnabled) {
+        echo '<a class="ui fluid labeled icon primary button" href="'.$loc.'autodl=1">
+            <i class="download icon"></i>
+            Download using aria2
+        </a>';
+    } else {
+        echo '<div class="two ui buttons">
+            <a class="ui labeled icon primary button" href="'.$loc.'autodl=2">
+                <i class="archive icon"></i>
+                Download using aria2 and then convert
+            </a>
+            <a class="ui right labeled icon button" href="'.$loc.'autodl=1">
+                <i class="download icon"></i>
+                Download using aria2
+            </a>
+        </div>';
+    }
+    echo '</div>';
 } else {
     echo '<div class="ui icon message">
     <i class="download icon"></i>

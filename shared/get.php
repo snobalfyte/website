@@ -77,35 +77,140 @@ function sendToAria2($url, $name, $sha1, $dir) {
     }
 }
 
-function createAria2DownloadScript($filesKeys, $files, $dir) {
-    echo '@echo off
-cd /d "%~dp0"
-
-set "aria2=aria2c.exe"
-set "aria2Script=aria2_script.txt"
-set "destDir='.$dir.'"
-
-if NOT EXIST %aria2% goto NO_ARIA2_ERROR
-erase /q /s "%aria2Script%" >NUL 2>&1';
-
-    echo "\n\n";
+function createAria2Script($filesKeys, $files) {
+    $aria2Script = '';
     foreach($filesKeys as $val) {
         $url = $files[$val]['url'];
-        $safeUrl = preg_replace('/&/', '^&', $url);
-        $safeUrl = preg_replace('/%/', '%%', $safeUrl);
-        $safeUrl = preg_replace('/</', '^<', $safeUrl);
-        $safeUrl = preg_replace('/>/', '^>', $safeUrl);
-        $safeUrl = preg_replace('/\|/', '^|', $safeUrl);
-
-        echo 'echo '.$safeUrl.">>\"%aria2Script%\"\n";
-        echo 'echo   out='.$val.">>\"%aria2Script%\"\n";
-        echo 'echo   checksum=sha-1='.$files[$val]['sha1'].">>\"%aria2Script%\"\n";
-        echo "echo.>>\"%aria2Script%\"\n";
+        $aria2Script .= $url."\n";
+        $aria2Script .= '  out='.$val."\n";
+        $aria2Script .= '  checksum=sha-1='.$files[$val]['sha1']."\n";
+        $aria2Script .= "\n";
     }
-    echo "\n";
 
-    echo 'echo Starting download of files...
-%aria2% -x16 -s16 -j5 -c -R -d"%destDir%" -i"%aria2Script%"
+    return $aria2Script;
+}
+
+//Create aria2 download package with conversion script
+function createUupConvertPackage($filesKeys, $files, $archiveName) {
+    $currDir = dirname(__FILE__).'/..';
+    $cmdScript = '@echo off
+cd /d "%~dp0"
+
+if NOT "%cd%"=="%cd: =%" (
+    echo Current directory contains spaces in its path.
+    echo Please move or rename the directory to one not containing spaces.
+    echo.
+    pause
+    goto :EOF
+)
+
+set "aria2=files\aria2c.exe"
+set "a7z=files\7za.exe"
+set "uupConv=files\uup-converter-wimlib.7z"
+set "aria2Script=files\aria2_script.txt"
+set "destDir=UUPs"
+
+if NOT EXIST %aria2% goto :NO_ARIA2_ERROR
+if NOT EXIST %aria2Script% goto :NO_FILE_ERROR
+if NOT EXIST %a7z% goto :NO_FILE_ERROR
+if NOT EXIST %uupConv% goto :NO_FILE_ERROR
+
+echo Extracting UUP converter...
+"%a7z%" -y x "%uupConv%" >NUL
+echo.
+
+echo Starting download of files...
+"%aria2%" -x16 -s16 -j5 -c -R -d"%destDir%" -i"%aria2Script%"
+if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
+
+if EXIST convert-UUP.cmd goto :START_CONVERT_QUESTION
+pause
+goto :EOF
+
+:START_CONVERT_QUESTION
+echo.
+set userConvert=y
+set /p userConvert="Do you want to start conversion process of downloaded files? [Y/n] "
+if /i "%userConvert%"=="y" call convert-UUP.cmd && exit /b
+if /i "%userConvert%"=="n" goto :EOF
+goto :START_CONVERT_QUESTION
+
+:NO_ARIA2_ERROR
+echo We couldn\'t find %aria2% in current directory.
+echo.
+echo You can download aria2 from:
+echo https://aria2.github.io/
+echo.
+pause
+goto :EOF
+
+:NO_FILE_ERROR
+echo We couldn\'t find one of needed files for this script.
+pause
+goto :EOF
+
+:DOWNLOAD_ERROR
+echo We have encountered an error while downloading files.
+pause
+goto :EOF
+
+:EOF
+';
+
+    $aria2Script = createAria2Script($filesKeys, $files);
+
+    $zip = new ZipArchive;
+    $archive = @tempnam($currDir.'/tmp', 'zip');
+    $open = $zip->open($archive, ZipArchive::CREATE+ZipArchive::OVERWRITE);
+
+    if(!file_exists($currDir.'/autodl_files/aria2c.exe')) {
+        die('aria2c.exe does not exist');
+    }
+
+    if(!file_exists($currDir.'/autodl_files/7za.exe')) {
+        die('7za.exe does not exist');
+    }
+
+    if(!file_exists($currDir.'/autodl_files/uup-converter-wimlib.7z')) {
+        die('uup-converter-wimlib.7z does not exist');
+    }
+
+    if($open === TRUE) {
+        $zip->addFromString('files/aria2_script.txt', $aria2Script);
+        $zip->addFromString('aria2_download.cmd', $cmdScript);
+        $zip->addFile($currDir.'/autodl_files/aria2c.exe', 'files/aria2c.exe');
+        $zip->addFile($currDir.'/autodl_files/7za.exe', 'files/7za.exe');
+        $zip->addFile($currDir.'/autodl_files/uup-converter-wimlib.7z', 'files/uup-converter-wimlib.7z');
+        $zip->close();
+    } else {
+        echo 'Failed to create archive.';
+        die();
+    }
+
+    $content = file_get_contents($archive);
+    unlink($archive);
+
+    header('Content-Type: archive/zip');
+    header('Content-Disposition: attachment; filename="'.$archiveName.'_convert.zip"');
+
+    echo $content;
+}
+
+//Create aria2 download package only
+function createAria2Package($filesKeys, $files, $archiveName) {
+    $currDir = dirname(__FILE__).'/..';
+    $cmdScript = '@echo off
+cd /d "%~dp0"
+
+set "aria2=files\aria2c.exe"
+set "aria2Script=files\aria2_script.txt"
+set "destDir=UUPs"
+
+if NOT EXIST %aria2% goto :NO_ARIA2_ERROR
+if NOT EXIST %aria2Script% goto :NO_ARIA2_SCRIPT_ERROR
+
+echo Starting download of files...
+"%aria2%" -x16 -s16 -j5 -c -R -d"%destDir%" -i"%aria2Script%"
 if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
 
 erase /q /s "%aria2Script%" >NUL 2>&1
@@ -121,12 +226,45 @@ echo.
 pause
 goto EOF
 
+:NO_ARIA2_SCRIPT_ERROR
+echo We couldn\'t find %aria2Script% in current directory.
+pause
+goto EOF
+
 :DOWNLOAD_ERROR
 echo We have encountered an error while downloading files.
 pause
 goto EOF
 
-:EOF';
-    echo "\n";
+:EOF
+';
+
+    $aria2Script = createAria2Script($filesKeys, $files);
+
+    $zip = new ZipArchive;
+    $archive = @tempnam($currDir.'/tmp', 'zip');
+    $open = $zip->open($archive, ZipArchive::CREATE+ZipArchive::OVERWRITE);
+
+    if(!file_exists($currDir.'/autodl_files/aria2c.exe')) {
+        die('aria2c.exe does not exist');
+    }
+
+    if($open === TRUE) {
+        $zip->addFromString('files/aria2_script.txt', $aria2Script);
+        $zip->addFromString('aria2_download.cmd', $cmdScript);
+        $zip->addFile($currDir.'/autodl_files/aria2c.exe', 'files/aria2c.exe');
+        $zip->close();
+    } else {
+        echo 'Failed to create archive.';
+        die();
+    }
+
+    $content = file_get_contents($archive);
+    unlink($archive);
+
+    header('Content-Type: archive/zip');
+    header('Content-Disposition: attachment; filename="'.$archiveName.'.zip"');
+
+    echo $content;
 }
 ?>
