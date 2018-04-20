@@ -76,13 +76,17 @@ styleUpper('downloads');
                 <option value="0">All languages</option>
 <?php
 foreach($langs as $key => $val) {
-    echo '<option value="'.$key.'">'.$val."</option>\n";
+    if($key == 'en-us') {
+        echo '<option value="'.$key.'" selected>'.$val."</option>\n";
+    } else {
+        echo '<option value="'.$key.'">'.$val."</option>\n";
+    }
 }
 ?>
             </select>
         </div>
 
-        <div class="grouped fields" id="filesSelection" style="display: naone;">
+        <div class="grouped fields" id="filesSelection" style="display: none;">
             <label>Files</label>
             <div class="field">
                 <div class="ui radio checkbox">
@@ -145,10 +149,15 @@ if($containsCU) {
         } else {
             form.action = './selectedition.php';
             btn.className = "ui fluid right labeled icon blue button";
-            msg.className = "ui bottom attached info message";
-            msg.innerHTML = '<i class="info icon"></i>' +
+            msg.className = "ui bottom attached icon info message";
+            msg.innerHTML = '<i class="paper plane icon"></i>' +
+                            '<div class="content">' +
+                            '<p class="header">Information</p>' +
                             'Click <i>Next</i> button to select edition you ' +
-                            'want to download.';
+                            'want to download.' +
+                            '<br>WindowsUpdateBox.exe and Cumulative update ' +
+                            'can be found in <i>All languages</i> language.' +
+                            '</div>';
 
             file.style.display = "none";
             radioCount = form.edition.length;

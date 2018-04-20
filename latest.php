@@ -27,6 +27,7 @@ $builds = array(
     '16299.15',
     '16299.19',
     '17025.1000',
+    '17134.1',
 );
 
 $ids = uupListIds();
@@ -69,14 +70,14 @@ sort($builds);
         </div>
 
         <div class="field">
-            <label>Build number to use while fetching</label>
+            <label>Build number of pretended Windows Update client</label>
             <select class="ui search dropdown" name="build">
 <?php
 foreach($builds as $val) {
     if($val == '16299.15') {
-        echo '<option value="'.$val.'" selected>'.$val.'</option>';
+        echo '<option value="'.$val.'" selected>'.$val."</option>\n";
     } else {
-        echo '<option value="'.$val.'">'.$val.'</option>';
+        echo '<option value="'.$val.'">'.$val."</option>\n";
     }
 }
 ?>

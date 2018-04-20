@@ -26,10 +26,12 @@ require_once 'api/get.php';
 require_once 'shared/get.php';
 require_once 'shared/style.php';
 
-$aria2ActionInfo = 'Click button that can be found below to start.';
+$aria2ActionInfo = 'You can quickly download these files at once using aria2.
+Click button that can be found below to start.';
 
 if(!$aria2SupportEnabled) {
-    $aria2ActionInfo = '<br>Click one of buttons that can be found below to
+    $aria2ActionInfo = 'You can quickly download these files at once using aria2.
+<br>Click one of buttons that can be found below to
 generate and download archive with script that will download everyting
 automatically and eventually convert it to ISO file.
 
@@ -43,6 +45,14 @@ conversion script that will be run after successfull download.
 <a href="https://aria2.github.io/">https://aria2.github.io/</a>.
 <br>Conversion script by
 <a href="https://forums.mydigitallife.net/members/abbodi1406.204274/">abbodi1406</a>.';
+}
+
+if(!$usePack) {
+    $aria2ActionInfo = 'You have selected All languages option.<br>
+Automatic aria2 download for this option is not supported.
+<br><br>
+If you want to download and convert UUP files automatically,
+please go back, select language and edition/editions.';
 }
 
 $files = uupGetFiles($updateId, $usePack, $desiredEdition);
@@ -125,14 +135,14 @@ styleUpper('downloads');
 if(!$autoDl) {
     echo '<div class="ui segment">
     <h3>Download using aria2</h3>
-    <p>You can quickly download these files at once using aria2. '.$aria2ActionInfo.'</p>';
+    <p>'.$aria2ActionInfo.'</p>';
 
-    if($aria2SupportEnabled) {
+    if($aria2SupportEnabled && $usePack) {
         echo '<a class="ui fluid labeled icon primary button" href="'.$loc.'autodl=1">
             <i class="download icon"></i>
             Download using aria2
         </a>';
-    } else {
+    } elseif($usePack) {
         echo '<div class="two ui buttons">
             <a class="ui labeled icon primary button" href="'.$loc.'autodl=2">
                 <i class="archive icon"></i>
