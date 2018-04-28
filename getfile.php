@@ -37,9 +37,11 @@ if(!isset($files[$file]['url'])) {
 }
 
 if($aria2) {
+    header('Content-Type: text/plain');
     echo $files[$file]['url']."\n";
     echo '  out='.$file."\n";
     echo '  checksum=sha-1='.$files[$file]['sha1']."\n\n";
+    die();
 }
 
 $url = $files[$file]['url'];
