@@ -17,12 +17,12 @@ limitations under the License.
 
 $updateId = isset($_GET['id']) ? $_GET['id'] : null;
 $file = isset($_GET['file']) ? $_GET['file'] : null;
+$aria2 = isset($_GET['aria2']) ? $_GET['aria2'] : 0;
 
 if(empty($updateId)) die('Unspecified update id');
 if(empty($file)) die('Unspecified file');
 
 require_once 'api/get.php';
-require_once 'shared/get.php';
 
 $files = uupGetFiles($updateId, 0, 0);
 if(isset($files['error'])) {
@@ -34,6 +34,12 @@ $filesKeys = array_keys($files);
 
 if(!isset($files[$file]['url'])) {
     die('We couldn\'t find file '.$file);
+}
+
+if($aria2) {
+    echo $files[$file]['url']."\n";
+    echo '  out='.$file."\n";
+    echo '  checksum=sha-1='.$files[$file]['sha1']."\n\n";
 }
 
 $url = $files[$file]['url'];
