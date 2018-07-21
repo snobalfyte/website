@@ -112,12 +112,22 @@ if($autoDl) {
         $id = substr($updateId, 0, 8);
         $archiveName = $updateBuild.'_'.$updateArch.'_'.$langDir.'_'.$id;
 
+        $url = '';
+        if(isset($_SERVER['HTTPS'])) {
+            $url .= 'https://';
+        } else {
+            $url .= 'http://';
+        }
+
+        $url .=  $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+        $url .= '?id='.$updateId.'&pack='.$usePack.'&edition='.$desiredEdition.'&aria2=1';
+
         if($autoDl == 1) {
-            createAria2Package($filesKeys, $files, $archiveName);
+            createAria2Package($url, $archiveName);
         }
 
         if($autoDl == 2) {
-            createUupConvertPackage($filesKeys, $files, $archiveName);
+            createUupConvertPackage($url, $archiveName);
         }
 
         die();
