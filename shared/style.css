@@ -1,5 +1,5 @@
 /*
-Copyright 2017 UUP dump authors
+Copyright 2018 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -54,4 +54,19 @@ limitations under the License.
 
 .footer .info {
 	opacity: 0.5;
+}
+
+.welcome-text {
+    margin: 2em;
+    text-align: center;
+}
+
+.welcome-text .header {
+    font-size: 30pt;
+    margin: 0;
+}
+
+.welcome-text .sub {
+    font-size: 12pt;
+    opacity: 0.5;
 }
