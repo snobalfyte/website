@@ -16,7 +16,7 @@ limitations under the License.
 */
 
 // Website information
-$websiteVersion = '3.11.1';
+$websiteVersion = '3.11.2';
 $requiredApi = '1.11.1';
 
 require_once dirname(__FILE__).'/../api/shared/main.php';

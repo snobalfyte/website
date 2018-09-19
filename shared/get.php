@@ -189,11 +189,12 @@ goto :EOF
         die();
     }
 
-    $content = file_get_contents($archive);
-    unlink($archive);
-
     header('Content-Type: archive/zip');
     header('Content-Disposition: attachment; filename="'.$archiveName.'_convert.zip"');
+    header('Content-Length: '.filesize($archive));
+
+    $content = file_get_contents($archive);
+    unlink($archive);
 
     echo $content;
 }
@@ -256,11 +257,12 @@ goto EOF
         die();
     }
 
-    $content = file_get_contents($archive);
-    unlink($archive);
-
     header('Content-Type: archive/zip');
     header('Content-Disposition: attachment; filename="'.$archiveName.'.zip"');
+    header('Content-Length: '.filesize($archive));
+
+    $content = file_get_contents($archive);
+    unlink($archive);
 
     echo $content;
 }
