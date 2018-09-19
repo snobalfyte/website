@@ -23,8 +23,42 @@ $usePack = isset($_GET['pack']) ? $_GET['pack'] : 0;
 $desiredEdition = isset($_GET['edition']) ? $_GET['edition'] : 0;
 
 require_once 'api/get.php';
+require_once 'api/updateinfo.php';
 require_once 'shared/get.php';
 require_once 'shared/style.php';
+
+if($autoDl && !$aria2SupportEnabled) {
+    $info = uupUpdateInfo($updateId);
+    $info = @$info['info'];
+
+    $updateBuild = isset($info['build']) ? $info['build'] : 'UNKNOWN';
+    $updateArch = isset($info['arch']) ? $info['arch'] : 'UNKNOWN';
+
+    $langDir = $usePack ? $usePack : 'all';
+
+    $id = substr($updateId, 0, 8);
+    $archiveName = $updateBuild.'_'.$updateArch.'_'.$langDir.'_'.$id;
+
+    $url = '';
+    if(isset($_SERVER['HTTPS'])) {
+        $url .= 'https://';
+    } else {
+        $url .= 'http://';
+    }
+
+    $url .=  $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+    $url .= '?id='.$updateId.'&pack='.$usePack.'&edition='.$desiredEdition.'&aria2=1';
+
+    if($autoDl == 1) {
+        createAria2Package($url, $archiveName);
+    }
+
+    if($autoDl == 2) {
+        createUupConvertPackage($url, $archiveName);
+    }
+
+    die();
+}
 
 $aria2ActionInfo = 'You can quickly download these files at once using aria2.
 Click button that can be found below to start.';
@@ -96,7 +130,7 @@ if($aria2) {
     die();
 }
 
-if($autoDl) {
+if($autoDl && $aria2SupportEnabled) {
     usort($filesKeys, 'sortBySize');
 
     $safeName = preg_replace('/\\|\/|:|\*|\?|"|<|>|\|/', '_', $updateName);
@@ -104,33 +138,8 @@ if($autoDl) {
 
     $downDir = $safeName.'/'.$updateArch.'/'.$langDir;
 
-    if($aria2SupportEnabled) {
-        foreach($filesKeys as $val) {
-            sendToAria2($files[$val]['url'], $val, $files[$val]['sha1'], $downDir);
-        }
-    } else {
-        $id = substr($updateId, 0, 8);
-        $archiveName = $updateBuild.'_'.$updateArch.'_'.$langDir.'_'.$id;
-
-        $url = '';
-        if(isset($_SERVER['HTTPS'])) {
-            $url .= 'https://';
-        } else {
-            $url .= 'http://';
-        }
-
-        $url .=  $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-        $url .= '?id='.$updateId.'&pack='.$usePack.'&edition='.$desiredEdition.'&aria2=1';
-
-        if($autoDl == 1) {
-            createAria2Package($url, $archiveName);
-        }
-
-        if($autoDl == 2) {
-            createUupConvertPackage($url, $archiveName);
-        }
-
-        die();
+    foreach($filesKeys as $val) {
+        sendToAria2($files[$val]['url'], $val, $files[$val]['sha1'], $downDir);
     }
 }
 
