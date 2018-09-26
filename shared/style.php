@@ -22,14 +22,15 @@ function styleUpper($pageType = 'home') {
 
     switch ($pageType) {
         case 'home':
-            $navbarLink = '<a class="active item" href="./index.php">Home</a>';
+            $navbarLink = '<a class="active item" href="./"><i class="home icon"></i>Home</a>'.
+                          '<a class="item" href="./known.php"><i class="download icon"></i>Downloads</a>';
             break;
         case 'downloads':
-            $navbarLink = '<a class="item" href="./index.php">Home</a>'.
-                          '<a class="active item">Downloads</a>';
+            $navbarLink = '<a class="item" href="./"><i class="home icon"></i>Home</a>'.
+                          '<a class="active item"><i class="download icon"></i>Downloads</a>';
             break;
         default:
-            $navbarLink = '<a class="active item" href="./index.php">Home</a>';
+            $navbarLink = '<a class="active item" href="./">Home</a>';
             break;
     }
 
@@ -37,6 +38,7 @@ function styleUpper($pageType = 'home') {
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <meta property="og:title" content="UUP dump">
         <meta property="og:type" content="website">
@@ -50,41 +52,67 @@ function styleUpper($pageType = 'home') {
         <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2/dist/semantic.min.js"></script>
 
         <title>UUP dump</title>
+
+        <script>
+            function sidebar() {
+                $(\'.ui.sidebar\').sidebar(\'toggle\');
+            }
+        </script>
     </head>
     <body>
-        <div class="page-header">
-            <div class="ui title container">
-                <h1>
-                    <img src="shared/img/logo.png" class="logo">UUP dump
-                    <p class="version">
-                        v'.$websiteVersion.'
-                    </p>
-                </h1>
-            </div>
-
-            <div class="ui attached secondary inverted stackable menu">
-                <div class="ui container">'.$navbarLink.'</div>
+        <div class="ui sidebar inverted vertical menu">
+            <div class="ui container">
+                '.$navbarLink.'
+                <a class="item" href="https://gitlab.com/uup-dump"><i class="code icon"></i>Source code</a>
             </div>
         </div>
+        <div class="pusher">
+            <div class="page-header">
+                <div class="ui title container">
+                    <h1>
+                        <img src="shared/img/logo.png" class="logo">UUP dump
+                        <p class="version">
+                            v'.$websiteVersion.'
+                        </p>
+                    </h1>
+                </div>
 
-        <div class="ui container">';
+                <div class="ui one column grid">
+                    <div class="ui attached secondary inverted menu tablet computer only column">
+                        <div class="ui container">
+                            '.$navbarLink.'
+                            <div class="right menu">
+                                <a class="item" href="https://gitlab.com/uup-dump"><i class="code icon"></i>Source code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui attached secondary inverted menu mobile only column">
+                        <div class="ui container">
+                            <a class="item" href="#" onClick="sidebar();"><i class="bars icon"></i>Menu</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui container">';
 }
 
 function styleLower() {
     global $websiteVersion;
 
     echo '<div class="footer">
-                <div class="ui divider"></div>
-                <p><i>
-                    <b>UUP dump</b> v'.$websiteVersion.'
-                    (<b>API</b> v'.uupApiVersion().')
-                    &copy; '.date('Y').' UUP dump authors.
+                    <div class="ui divider"></div>
+                    <p><i>
+                        <b>UUP dump</b> v'.$websiteVersion.'
+                        (<b>API</b> v'.uupApiVersion().')
+                        &copy; '.date('Y').' UUP dump authors.
 
-                    <span class="info">
-                        This project is not affiliated with Microsoft Corporation.
-                        Windows is registered trademark of Microsoft Corporation.
-                    </span>
-                </i></p>
+                        <span class="info">
+                            This project is not affiliated with Microsoft Corporation.
+                            Windows is a registered trademark of Microsoft Corporation.
+                        </span>
+                    </i></p>
+                </div>
             </div>
         </div>
     </body>
