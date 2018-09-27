@@ -16,7 +16,7 @@ limitations under the License.
 */
 
 $updateId = isset($_GET['id']) ? $_GET['id'] : null;
-$file = isset($_GET['file']) ? $_GET['file'] : null;
+$file = isset($_GET['file']) ? strtolower($_GET['file']) : null;
 $aria2 = isset($_GET['aria2']) ? $_GET['aria2'] : 0;
 
 if(empty($updateId)) die('Unspecified update id');
