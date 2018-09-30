@@ -69,11 +69,11 @@ if(!$aria2SupportEnabled) {
 generate and download archive with script that will download everyting
 automatically and eventually convert it to ISO file.
 
-<br><br>The archive will contain aria2c.exe application, aria2 script, and an
-aria2_download.cmd script that will start the download.
+<br><br>The archive will contain aria2c.exe application and an aria2_download.cmd
+script that will start the download process.
 
 <br>If you choose option with conversion, then archive will also include a
-conversion script that will be run after successfull download.
+conversion script that will be run after successful download.
 
 <br><br>Aria2 is an open source project. You can find it here:
 <a href="https://aria2.github.io/">https://aria2.github.io/</a>.
