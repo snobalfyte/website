@@ -122,6 +122,7 @@ if(!$cached) {
         'content' => $files,
     );
 
+    if(!file_exists('cache')) mkdir('cache');
     @file_put_contents('cache/'.$cacheHash.'.json', json_encode($cache)."\n");
 }
 
