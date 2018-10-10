@@ -89,10 +89,40 @@ If you want to download and convert UUP files automatically,
 please go back, select language and edition/editions.';
 }
 
-$files = uupGetFiles($updateId, $usePack, $desiredEdition);
-if(isset($files['error'])) {
-    fancyError($files['error'], 'downloads');
-    die();
+$cacheHash = hash('sha1', strtolower("upd-$updateId-$usePack-$desiredEdition"));
+$cached = 0;
+
+if(file_exists('cache/'.$cacheHash.'.json')) {
+    $files = @file_get_contents('cache/'.$cacheHash.'.json');
+    $files = json_decode($files, 1);
+
+    if(isset($files['content']['error'])) {
+        fancyError($files['error'], 'downloads');
+        die();
+    }
+
+    if(!empty($files['content']['files']) && ($files['expires'] > time())) {
+        $cached = 1;
+        $files = $files['content'];
+    } else {
+        $cached = 0;
+        unset($files);
+    }
+}
+
+if(!$cached) {
+    $files = uupGetFiles($updateId, $usePack, $desiredEdition);
+    if(isset($files['error'])) {
+        fancyError($files['error'], 'downloads');
+        die();
+    }
+
+    $cache = array(
+        'expires' => time()+90,
+        'content' => $files,
+    );
+
+    @file_put_contents('cache/'.$cacheHash.'.json', json_encode($cache)."\n");
 }
 
 $updateName = $files['updateName'];
