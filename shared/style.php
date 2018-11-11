@@ -34,6 +34,15 @@ function styleUpper($pageType = 'home') {
             break;
     }
 
+    $baseUrl = '';
+    if(isset($_SERVER['HTTPS'])) {
+        $baseUrl .= 'https://';
+    } else {
+        $baseUrl .= 'http://';
+    }
+
+    $baseUrl .=  $_SERVER['HTTP_HOST'];
+    
     echo '<!DOCTYPE html>
 <html>
     <head>
@@ -43,7 +52,7 @@ function styleUpper($pageType = 'home') {
         <meta property="og:title" content="UUP dump">
         <meta property="og:type" content="website">
         <meta property="og:description" content="Download UUP files from Windows Update servers with ease. This project is not affiliated with Microsoft Corporation.">
-        <meta property="og:image" content="./shared/img/icon.png">
+        <meta property="og:image" content="'.$baseUrl.'/shared/img/icon.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2/dist/semantic.min.css">
         <link rel="stylesheet" href="shared/style.css">
