@@ -18,10 +18,11 @@ limitations under the License.
 	color: #dcddde;
 	background-image: url('img/bg.png');
 	background-repeat: no-repeat;
-	background-position: right;
-	background-size: auto 100%;
+	background-position: center;
+	background-size: cover;
 	background-color: #000;
 	padding: 0.75em;
+    box-shadow: 0 -2px 10px #000;
 }
 
 .page-header .title {
@@ -31,12 +32,12 @@ limitations under the License.
 }
 
 .page-header .title .logo {
-	height: 48px;
-	margin-top: -0.2em;
-	margin-bottom: -0.45em;
+	height: 36px;
+    margin: -0.2em 0.25em -0.25em 0.25em
 }
 
 .page-header .title h1 {
+    text-align: center;
 	font-weight: 400;
 }
 

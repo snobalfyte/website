@@ -43,7 +43,7 @@ function styleUpper($pageType = 'home') {
         <meta property="og:title" content="UUP dump">
         <meta property="og:type" content="website">
         <meta property="og:description" content="Download UUP files from Windows Update servers with ease. This project is not affiliated with Microsoft Corporation.">
-        <meta property="og:image" content="https://i.imgur.com/vRZYmUt.png">
+        <meta property="og:image" content="./shared/img/icon.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2/dist/semantic.min.css">
         <link rel="stylesheet" href="shared/style.css">
@@ -70,7 +70,7 @@ function styleUpper($pageType = 'home') {
             <div class="page-header">
                 <div class="ui title container">
                     <h1>
-                        <img src="shared/img/logo.png" class="logo">UUP dump
+                        <img src="shared/img/logo.svg" class="logo">UUP dump
                         <p class="version">
                             v'.$websiteVersion.'
                         </p>
