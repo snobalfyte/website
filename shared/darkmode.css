@@ -69,6 +69,7 @@ label,
 .ui.table.striped tr:nth-child(2n) {
     background-color: #1a1a1a !important;
 }
+
 .ui.button {
     background-color: #303030;
     color: #fff;
