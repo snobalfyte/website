@@ -20,6 +20,54 @@ require_once dirname(__FILE__).'/main.php';
 function styleUpper($pageType = 'home') {
     global $websiteVersion;
 
+    $enableDarkMode = 0;
+    if(isset($_COOKIE['Dark-Mode'])) {
+        if($_COOKIE['Dark-Mode'] == 1) {
+            $enableDarkMode = 1;
+        }
+    }
+
+    if(isset($_GET['dark'])) {
+        if($_GET['dark'] == 1) {
+            setcookie('Dark-Mode', 1);
+            $enableDarkMode = 1;
+        } elseif($_GET['dark'] == 0) {
+            setcookie('Dark-Mode');
+            $enableDarkMode = 0;
+        }
+    }
+
+    $baseUrl = '';
+    if(isset($_SERVER['HTTPS'])) {
+        $baseUrl .= 'https://';
+    } else {
+        $baseUrl .= 'http://';
+    }
+
+    $baseUrl .=  $_SERVER['HTTP_HOST'];
+
+    $params = '';
+    $separator = '?';
+    foreach($_GET as $key => $val) {
+        if($key == 'dark') continue;
+        $params .= $separator.$key.'='.$val;
+        $separator = '&';
+    }
+    $params .= $separator;
+
+    $shelf = explode('?', $_SERVER['REQUEST_URI']);
+    $url = $baseUrl.$shelf[0].$params;
+    unset($key, $val, $index, $params, $shelf);
+
+    if($enableDarkMode) {
+        $darkMode = '<link rel="stylesheet" href="shared/darkmode.css">';
+        $darkSwitch = '<a class="item" href="'.$url.'dark=0"><i class="eye slash icon"></i>Light mode</a>';
+    } else {
+        $darkMode = '';
+        $darkSwitch = '<a class="item" href="'.$url.'dark=1"><i class="eye icon"></i>Dark mode</a>';
+    }
+
+
     switch ($pageType) {
         case 'home':
             $navbarLink = '<a class="active item" href="./"><i class="home icon"></i>Home</a>'.
@@ -34,15 +82,8 @@ function styleUpper($pageType = 'home') {
             break;
     }
 
-    $baseUrl = '';
-    if(isset($_SERVER['HTTPS'])) {
-        $baseUrl .= 'https://';
-    } else {
-        $baseUrl .= 'http://';
-    }
+    $navbarRight = $darkSwitch.'<a class="item" href="https://gitlab.com/uup-dump"><i class="code icon"></i>Source code</a>';
 
-    $baseUrl .=  $_SERVER['HTTP_HOST'];
-    
     echo '<!DOCTYPE html>
 <html>
     <head>
@@ -56,6 +97,7 @@ function styleUpper($pageType = 'home') {
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2/dist/semantic.min.css">
         <link rel="stylesheet" href="shared/style.css">
+        '.$darkMode.'
 
         <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2/dist/semantic.min.js"></script>
@@ -71,8 +113,7 @@ function styleUpper($pageType = 'home') {
     <body>
         <div class="ui sidebar inverted vertical menu">
             <div class="ui container">
-                '.$navbarLink.'
-                <a class="item" href="https://gitlab.com/uup-dump"><i class="code icon"></i>Source code</a>
+                '.$navbarLink.$navbarRight.'
             </div>
         </div>
         <div class="pusher">
@@ -91,7 +132,7 @@ function styleUpper($pageType = 'home') {
                         <div class="ui container">
                             '.$navbarLink.'
                             <div class="right menu">
-                                <a class="item" href="https://gitlab.com/uup-dump"><i class="code icon"></i>Source code</a>
+                                '.$navbarRight.'
                             </div>
                         </div>
                     </div>

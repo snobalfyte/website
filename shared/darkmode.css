@@ -1,0 +1,91 @@
+/*
+Copyright 2018 UUP dump authors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+body,
+.ui.segment,
+.ui.table,
+.pusher {
+    background-color: #111 !important;
+}
+
+body,
+.ui.section,
+.ui.divider,
+.ui.table,
+.ui.table.celled td {
+    color: #fff;
+}
+
+.ui.segment {
+    border-color: #2a2a2a !important;
+}
+
+.ui.table th,
+.ui.message,
+.ui.message .header,
+.ui.dropdown .menu .item:hover {
+    background-color: #222 !important;
+}
+
+.ui.table,
+.ui.table.celled td,
+.ui.table.celled th {
+    border-color: #2e2e2e !important;
+}
+
+label,
+.ui.table th,
+.ui.message,
+.ui.message .header {
+    color: #fff !important;
+}
+
+.ui.dropdown,
+.ui.dropdown .menu,
+.ui.dropdown .menu .item,
+.ui.dropdown .text,
+.ui.dropdown input,
+.ui.dropdown .message,
+.ui input,
+.ui textarea {
+    background-color: #1a1a1a !important;
+    border-color: #2a2a2a !important;
+    color: #fff !important;
+}
+
+.ui.table.striped tr:nth-child(2n) {
+    background-color: #1a1a1a !important;
+}
+.ui.button {
+    background-color: #303030;
+    color: #fff;
+}
+
+.ui.button:hover,
+.ui.button:focus {
+    background-color: #383838;
+    color: #fff;
+}
+
+.ui.button:active {
+    background-color: #444;
+    color: #fff;
+}
+
+.ui.message,
+.ui.message .header {
+    box-shadow: none !important;
+}
