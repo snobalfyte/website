@@ -27,7 +27,7 @@ require_once 'api/updateinfo.php';
 require_once 'shared/get.php';
 require_once 'shared/style.php';
 
-if($autoDl && !$aria2SupportEnabled) {
+if($autoDl) {
     $info = uupUpdateInfo($updateId);
     $info = @$info['info'];
 
@@ -61,10 +61,6 @@ if($autoDl && !$aria2SupportEnabled) {
 }
 
 $aria2ActionInfo = 'You can quickly download these files at once using aria2.
-Click button that can be found below to start.';
-
-if(!$aria2SupportEnabled) {
-    $aria2ActionInfo = 'You can quickly download these files at once using aria2.
 <br>Click one of buttons that can be found below to
 generate and download archive with script that will download everyting
 automatically and eventually convert it to ISO file.
@@ -79,7 +75,6 @@ conversion script that will be run after successful download.
 <a href="https://aria2.github.io/">https://aria2.github.io/</a>.
 <br>Conversion script by
 <a href="https://forums.mydigitallife.net/members/abbodi1406.204274/">abbodi1406</a>.';
-}
 
 if(!$usePack) {
     $aria2ActionInfo = 'You have selected All languages option.<br>
@@ -89,41 +84,10 @@ If you want to download and convert UUP files automatically,
 please go back, select language and edition/editions.';
 }
 
-$cacheHash = hash('sha1', strtolower("upd-$updateId-$usePack-$desiredEdition"));
-$cached = 0;
-
-if(file_exists('cache/'.$cacheHash.'.json')) {
-    $files = @file_get_contents('cache/'.$cacheHash.'.json');
-    $files = json_decode($files, 1);
-
-    if(isset($files['content']['error'])) {
-        fancyError($files['error'], 'downloads');
-        die();
-    }
-
-    if(!empty($files['content']['files']) && ($files['expires'] > time())) {
-        $cached = 1;
-        $files = $files['content'];
-    } else {
-        $cached = 0;
-        unset($files);
-    }
-}
-
-if(!$cached) {
-    $files = uupGetFiles($updateId, $usePack, $desiredEdition);
-    if(isset($files['error'])) {
-        fancyError($files['error'], 'downloads');
-        die();
-    }
-
-    $cache = array(
-        'expires' => time()+90,
-        'content' => $files,
-    );
-
-    if(!file_exists('cache')) mkdir('cache');
-    @file_put_contents('cache/'.$cacheHash.'.json', json_encode($cache)."\n");
+$files = uupGetFiles($updateId, $usePack, $desiredEdition, 1);
+if(isset($files['error'])) {
+    fancyError($files['error'], 'downloads');
+    die();
 }
 
 $updateName = $files['updateName'];
@@ -161,19 +125,6 @@ if($aria2) {
     die();
 }
 
-if($autoDl && $aria2SupportEnabled) {
-    usort($filesKeys, 'sortBySize');
-
-    $safeName = preg_replace('/\\|\/|:|\*|\?|"|<|>|\|/', '_', $updateName);
-    $langDir = $usePack ? $usePack : 'all';
-
-    $downDir = $safeName.'/'.$updateArch.'/'.$langDir;
-
-    foreach($filesKeys as $val) {
-        sendToAria2($files[$val]['url'], $val, $files[$val]['sha1'], $downDir);
-    }
-}
-
 styleUpper('downloads');
 ?>
 
@@ -181,44 +132,25 @@ styleUpper('downloads');
     <h3><i class="list icon"></i><?php echo $updateName.' '.$updateArch; ?></h3>
 </div>
 
+<div class="ui segment">
+<h3>Download using aria2</h3>
 <?php
-if(!$autoDl) {
-    echo '<div class="ui segment">
-    <h3>Download using aria2</h3>
-    <p>'.$aria2ActionInfo.'</p>';
+echo '<p>'.$aria2ActionInfo.'</p>';
 
-    if($aria2SupportEnabled && $usePack) {
-        echo '<a class="ui fluid labeled icon primary button" href="'.$loc.'autodl=1">
+if($usePack) {
+    echo '<div class="two ui buttons">
+        <a class="ui labeled icon primary button" href="'.$loc.'autodl=2">
+            <i class="archive icon"></i>
+            Download using aria2 and then convert
+        </a>
+        <a class="ui right labeled icon button" href="'.$loc.'autodl=1">
             <i class="download icon"></i>
             Download using aria2
-        </a>';
-    } elseif($usePack) {
-        echo '<div class="two ui buttons">
-            <a class="ui labeled icon primary button" href="'.$loc.'autodl=2">
-                <i class="archive icon"></i>
-                Download using aria2 and then convert
-            </a>
-            <a class="ui right labeled icon button" href="'.$loc.'autodl=1">
-                <i class="download icon"></i>
-                Download using aria2
-            </a>
-        </div>';
-    }
-    echo '</div>';
-} else {
-    echo '<div class="ui icon message">
-    <i class="download icon"></i>
-    <div class="content">
-        <div class="header">Downloading files...</div>
-        <p>These files below are currently downloaded using aria2. Check console window of this project or aria2 WebUI for progress.</p>
-        <a class="ui fluid labeled icon black button" href="/aria2ui/index.html" target="_blank">
-            <i class="external icon"></i>
-            Open aria2 Web UI in new tab
         </a>
-    </div>
-</div>';
+    </div>';
 }
 ?>
+</div>
 
 <table class="ui celled striped table">
     <thead>

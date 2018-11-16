@@ -34,9 +34,11 @@ body,
 }
 
 .ui.table th,
+.ui.table thead,
 .ui.message,
 .ui.message .header,
-.ui.dropdown .menu .item:hover {
+.ui.dropdown .menu .item:hover,
+.ui.dropdown .menu .selected.item {
     background-color: #222 !important;
 }
 
@@ -48,6 +50,7 @@ body,
 
 label,
 .ui.table th,
+.ui.table thead,
 .ui.message,
 .ui.message .header {
     color: #fff !important;
@@ -83,6 +86,12 @@ label,
 
 .ui.button:active {
     background-color: #444;
+    color: #fff;
+}
+
+input::selection,
+textarea::selection {
+    background-color: #359;
     color: #fff;
 }
 

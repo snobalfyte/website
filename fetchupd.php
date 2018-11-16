@@ -28,38 +28,10 @@ require_once 'shared/style.php';
 $cacheHash = hash('sha1', strtolower("fetch-$arch-$ring-$flight-$build-$minor-$sku"));
 $cached = 0;
 
-if(file_exists('cache/'.$cacheHash.'.json')) {
-    $fetchUpd = @file_get_contents('cache/'.$cacheHash.'.json');
-    $fetchUpd = json_decode($fetchUpd, 1);
-
-    if(isset($fetchUpd['error'])) {
-        fancyError($fetchUpd['error'], 'downloads');
-        die();
-    }
-
-    if(!empty($fetchUpd['content']['updateId']) && ($fetchUpd['expires'] > time())) {
-        $cached = 1;
-        $fetchUpd = $fetchUpd['content'];
-    } else {
-        $cached = 0;
-        unset($fetchUpd);
-    }
-}
-
-if(!$cached) {
-    $fetchUpd = uupFetchUpd($arch, $ring, $flight, $build, $minor, $sku);
-    if(isset($fetchUpd['error'])) {
-        fancyError($fetchUpd['error'], 'downloads');
-        die();
-    }
-
-    $cache = array(
-        'expires' => time()+90,
-        'content' => $fetchUpd,
-    );
-
-    if(!file_exists('cache')) mkdir('cache');
-    @file_put_contents('cache/'.$cacheHash.'.json', json_encode($cache)."\n");
+$fetchUpd = uupFetchUpd($arch, $ring, $flight, $build, $minor, $sku, 1);
+if(isset($fetchUpd['error'])) {
+    fancyError($fetchUpd['error'], 'downloads');
+    die();
 }
 
 styleUpper('downloads');

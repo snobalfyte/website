@@ -15,9 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Change this to disable aria2 local downloads support
-$aria2SupportEnabled = 1;
-
 function sortBySize($a, $b) {
     global $files;
 
@@ -26,55 +23,6 @@ function sortBySize($a, $b) {
     }
 
     return ($files[$a]['size'] < $files[$b]['size']) ? -1 : 1;
-}
-
-function sendToAria2($url, $name, $sha1, $dir) {
-    global $aria2SupportEnabled;
-
-    if(!$aria2SupportEnabled) {
-        fancyError('ARIA2_SUPPORT_NOT_ENABLED', 'downloads');
-        die();
-    }
-
-    $data = array(
-        'jsonrpc' => '2.0',
-        'id' => null,
-        'method' => 'aria2.addUri',
-        'params' => array(
-            'token:MfR3lC7EvOM5Ji1RhDIgPexj81B71BvJ',
-            array(
-                $url,
-            ),
-            array(
-                'dir' => $dir,
-                'out' => $name,
-                'checksum' => 'sha-1='.$sha1,
-            ),
-        ),
-    );
-
-    $postData = json_encode($data);
-    $req = curl_init('http://127.0.0.1:24701/jsonrpc');
-
-    curl_setopt($req, CURLOPT_HEADER, 0);
-    curl_setopt($req, CURLOPT_POST, 1);
-    curl_setopt($req, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($req, CURLOPT_POSTFIELDS, $postData);
-
-    $out = curl_exec($req);
-    curl_close($req);
-
-    if(empty($out)) {
-        fancyError('ARIA2_CONNECT_FAIL', 'downloads');
-        die();
-    }
-
-    $out = json_decode($out, true);
-    if(isset($out['error'])) {
-        $errorMsg = '<br><i>'.$out['error']['message'].'</i>';
-        fancyError('ARIA2_RPC_ERROR', 'downloads', $errorMsg);
-        die();
-    }
 }
 
 //Create aria2 download package with conversion script
