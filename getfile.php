@@ -24,41 +24,9 @@ if(empty($file)) die('Unspecified file');
 
 require_once 'api/get.php';
 
-$cacheHash = hash('sha1', strtolower("upd-$updateId-0-0"));
-$cached = 0;
-
-if(file_exists('cache/'.$cacheHash.'.json')) {
-    $files = @file_get_contents('cache/'.$cacheHash.'.json');
-    $files = json_decode($files, 1);
-
-    if(isset($files['content']['error'])) {
-        fancyError($files['error'], 'downloads');
-        die();
-    }
-
-    if(!empty($files['content']['files']) && ($files['expires'] > time())) {
-        $cached = 1;
-        $files = $files['content'];
-    } else {
-        $cached = 0;
-        unset($files);
-    }
-}
-
-if(!$cached) {
-    $files = uupGetFiles($updateId, 0, 0);
-    if(isset($files['error'])) {
-        fancyError($files['error'], 'downloads');
-        die();
-    }
-
-    $cache = array(
-        'expires' => time()+90,
-        'content' => $files,
-    );
-
-    if(!file_exists('cache')) mkdir('cache');
-    @file_put_contents('cache/'.$cacheHash.'.json', json_encode($cache)."\n");
+$files = uupGetFiles($updateId, 0, 0, 1);
+if(isset($files['error'])) {
+    die($files['error']);
 }
 
 $files = $files['files'];

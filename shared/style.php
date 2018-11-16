@@ -207,6 +207,9 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
         case 'NO_UPDATE_FOUND':
             $errorFancy = 'Server did not return any updates.';
             break;
+        case 'XML_PARSE_ERROR':
+            $errorFancy = 'Parsing of response XML has failed. This may indicate a temporary problem with Microsoft servers. Try again later.';
+            break;
         case 'EMPTY_FILELIST':
             $errorFancy = 'Server has returned an empty list of files.';
             break;
