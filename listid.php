@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2017 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,8 +15,36 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-require_once 'api/listid.php';
 header('Content-Type: text/plain');
+
+$userAgent = $_SERVER['HTTP_USER_AGENT'];
+$bannedAgents = array(
+    'UUP dump downloader/0.3.0-alpha',
+    'UUP dump downloader/0.4.0-alpha',
+    'UUP dump downloader/0.5.0-alpha',
+    'UUP dump downloader/1.0.0-beta.1',
+    'UUP dump downloader/1.0.0-beta.2',
+    'UUP dump downloader/1.0.0-beta.3',
+    'UUP dump downloader/1.0.0-beta.4',
+    'UUP dump downloader/1.0.0-beta.5',
+    'UUP dump downloader/1.0.0-beta.6',
+    'UUP dump downloader/1.0.0-beta.7',
+    'UUP dump downloader/1.0.0',
+    'UUP dump downloader/1.1.0-alpha.1',
+    'UUP dump downloader/1.1.0-alpha.2',
+    'UUP dump downloader/1.1.0-alpha.3',
+    'UUP dump downloader/1.1.0-alpha.4',
+    'UUP dump downloader/1.1.0-alpha.5',
+    'UUP dump downloader/1.1.0-alpha.6',
+    'UUP dump downloader/1.1.0-alpha.7',
+);
+
+if(in_array($userAgent, $bannedAgents)) {
+    echo "0||00000000-0000-0000-0000-000000000000|Old version of tool! Please update: https://0x0.st/sBa\n";
+    die();
+}
+
+require_once 'api/listid.php';
 
 $ids = uupListIds();
 if(isset($ids['error'])) {
