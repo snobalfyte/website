@@ -65,16 +65,22 @@ $aria2ActionInfo = 'You can quickly download these files at once using aria2.
 generate and download archive with script that will download everyting
 automatically and eventually convert it to ISO file.
 
-<br><br>The archive will contain aria2c.exe application and an aria2_download.cmd
-script that will start the download process.
+<br><br>The archive will contain aria2c.exe application, and an
+aria2_download_windows.cmd script that will start the download process.
 
-<br>If you choose option with conversion, then archive will also include a
+<br>The archive will also contain an aria2_download_linux.sh script, which
+can be used if you are using Linux. This script has the same functionality
+as the Windows one.
+
+<br><br>If you choose option with conversion, then archive will also include a
 conversion script that will be run after successful download.
 
 <br><br>Aria2 is an open source project. You can find it here:
 <a href="https://aria2.github.io/">https://aria2.github.io/</a>.
-<br>Conversion script by
-<a href="https://forums.mydigitallife.net/members/abbodi1406.204274/">abbodi1406</a>.';
+<br>UUP Conversion script (Windows version) has been created by
+<a href="https://forums.mydigitallife.net/members/abbodi1406.204274/">abbodi1406</a>.
+<br>UUP Conversion script (Linux version) is open source. You can find it here:
+<a href="https://gitlab.com/uup-dump/converter">https://gitlab.com/uup-dump/converter</a>.';
 
 if(!$usePack) {
     $aria2ActionInfo = 'You have selected All languages option.<br>
