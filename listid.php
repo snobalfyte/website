@@ -29,6 +29,7 @@ $bannedAgents = array(
     'UUP dump downloader/1.0.0-beta.5',
     'UUP dump downloader/1.0.0-beta.6',
     'UUP dump downloader/1.0.0-beta.7',
+    'UUP dump downloader/1.0.0-rc.1',
     'UUP dump downloader/1.0.0',
     'UUP dump downloader/1.1.0-alpha.1',
     'UUP dump downloader/1.1.0-alpha.2',
