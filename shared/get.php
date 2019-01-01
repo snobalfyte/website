@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ if NOT "%cd%"=="%cd: =%" (
     goto :EOF
 )
 
-NET SESSION >NUL 2>&1
+REG QUERY HKU\S-1-5-19\Environment >NUL 2>&1
 IF %ERRORLEVEL% EQU 0 goto :START_PROCESS
 
 set "command="""%~f0""" %*"
@@ -58,7 +58,7 @@ goto :EOF
 
 :START_PROCESS
 set "aria2=files\aria2c.exe"
-set "a7z=files\7za.exe"
+set "a7z=files\7zdec.exe"
 set "uupConv=files\uup-converter-wimlib.7z"
 set "aria2Script=files\aria2_script.txt"
 set "destDir=UUPs"
@@ -68,7 +68,7 @@ if NOT EXIST %a7z% goto :NO_FILE_ERROR
 if NOT EXIST %uupConv% goto :NO_FILE_ERROR
 
 echo Extracting UUP converter...
-"%a7z%" -y x "%uupConv%" >NUL
+"%a7z%" x "%uupConv%" >NUL
 echo.
 
 echo Retrieving updated aria2 script...
@@ -174,8 +174,8 @@ fi
         die('aria2c.exe does not exist');
     }
 
-    if(!file_exists($currDir.'/autodl_files/7za.exe')) {
-        die('7za.exe does not exist');
+    if(!file_exists($currDir.'/autodl_files/7zdec.exe')) {
+        die('7zdec.exe does not exist');
     }
 
     if(!file_exists($currDir.'/autodl_files/uup-converter-wimlib.7z')) {
@@ -187,7 +187,7 @@ fi
         $zip->addFromString('aria2_download_linux.sh', $shellScript);
         $zip->addFile($currDir.'/autodl_files/aria2c.exe', 'files/aria2c.exe');
         $zip->addFile($currDir.'/autodl_files/convert.sh', 'files/convert.sh');
-        $zip->addFile($currDir.'/autodl_files/7za.exe', 'files/7za.exe');
+        $zip->addFile($currDir.'/autodl_files/7zdec.exe', 'files/7zdec.exe');
         $zip->addFile($currDir.'/autodl_files/uup-converter-wimlib.7z', 'files/uup-converter-wimlib.7z');
         $zip->close();
     } else {
