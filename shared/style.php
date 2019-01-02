@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -243,14 +243,8 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
         case 'UNSPECIFIED_UPDATE':
             $errorFancy = 'Update ID was not specified.';
             break;
-        case 'ARIA2_SUPPORT_NOT_ENABLED':
-            $errorFancy = 'Support of aria2 has been disabled.';
-            break;
-        case 'ARIA2_CONNECT_FAIL':
-            $errorFancy = 'Could not connect to aria2 RPC.';
-            break;
-        case 'ARIA2_RPC_ERROR':
-            $errorFancy = 'Aria2 RPC has returned an error.';
+        case 'INCORRECT_ID':
+            $errorFancy = 'Specified Update ID is not a correct Update ID. Please make sure that Update ID is a correct Update ID.';
             break;
         default:
             $errorFancy = '<i>Error message is not available.</i><br><br>'.$errorCode;

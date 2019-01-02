@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -26,6 +26,11 @@ require_once 'api/get.php';
 require_once 'api/updateinfo.php';
 require_once 'shared/get.php';
 require_once 'shared/style.php';
+
+if(!preg_match('/^[\da-fA-F]{8}-([\da-fA-F]{4}-){3}[\da-fA-F]{12}(_rev\.\d+)?$/', $updateId)) {
+    fancyError('INCORRECT_ID', 'downloads');
+    die();
+}
 
 if($autoDl) {
     $info = uupUpdateInfo($updateId);
