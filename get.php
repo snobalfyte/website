@@ -143,6 +143,12 @@ styleUpper('downloads');
     <h3><i class="list icon"></i><?php echo $updateName.' '.$updateArch; ?></h3>
 </div>
 
+<?php
+if(!file_exists('packs/'.$updateId.'.json.gz')) {
+    styleNoPackWarn();
+}
+?>
+
 <div class="ui segment">
 <h3>Download using aria2</h3>
 <?php

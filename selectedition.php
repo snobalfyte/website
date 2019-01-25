@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -76,6 +76,12 @@ styleUpper('downloads');
 <div class="ui horizontal divider">
     <h3><i class="archive icon"></i>Choose edition</h3>
 </div>
+
+<?php
+if(!file_exists('packs/'.$updateId.'.json.gz')) {
+    styleNoPackWarn();
+}
+?>
 
 <div class="ui top attached segment">
     <form class="ui form" action="./get.php" method="get">

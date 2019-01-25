@@ -24,12 +24,13 @@ function styleUpper($pageType = 'home') {
     if(isset($_COOKIE['Dark-Mode'])) {
         if($_COOKIE['Dark-Mode'] == 1) {
             $enableDarkMode = 1;
+            setcookie('Dark-Mode', 1, time()+2592000);
         }
     }
 
     if(isset($_GET['dark'])) {
         if($_GET['dark'] == 1) {
-            setcookie('Dark-Mode', 1);
+            setcookie('Dark-Mode', 1, time()+2592000);
             $enableDarkMode = 1;
         } elseif($_GET['dark'] == 0) {
             setcookie('Dark-Mode');
@@ -199,7 +200,7 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
             $errorFancy = 'The flight and ring combination is not correct. Skip ahead is only supported for Insider Fast ring.';
             break;
         case 'ILLEGAL_BUILD':
-            $errorFancy = 'Specified build number is less than 15063 or larger than 65536.';
+            $errorFancy = 'Specified build number is less than 9841 or larger than '. (PHP_INT_MAX-1) .'.';
             break;
         case 'ILLEGAL_MINOR':
             $errorFancy = 'Specified build minor is incorrect.';
@@ -271,4 +272,14 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
 
     styleLower();
 }
-?>
+
+function styleNoPackWarn() {
+    echo '<div class="ui icon warning message">
+    <i class="warning circle icon"></i>
+    <div class="content">
+        <div class="header">Generated pack not available</div>
+        <p>The update you are attempting to download does not have a generated pack that provides full information about available languages, editions and files. The fallback pack will be used that may not provide the correct information. If download fails because of this, please wait for the automatically generated pack to become available.</p>
+    </div>
+</div>
+';
+}

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ if(isset($fetchUpd['error'])) {
     die();
 }
 
+$updateArray = $fetchUpd['updateArray'];
 styleUpper('downloads');
 ?>
 
@@ -41,36 +42,38 @@ styleUpper('downloads');
     <h3><i class="wizard icon"></i>Response from server</h3>
 </div>
 
-<div class="ui top attached segment">
-    <form class="ui form" action="./selectlang.php" method="get">
-        <div class="field">
-            <label>Name of update</label>
-            <input type="text" readonly value="<?php echo $fetchUpd['updateTitle']; ?>">
-        </div>
-        <div class="field">
-            <label>Architecture</label>
-            <input type="text" readonly value="<?php echo $fetchUpd['arch']; ?>">
-        </div>
-        <div class="field">
-            <label>Build number</label>
-            <input type="text" readonly value="<?php echo $fetchUpd['foundBuild']; ?>">
-        </div>
-        <div class="field">
-            <label>Update ID</label>
-            <input type="text" readonly value="<?php echo $fetchUpd['updateId']; ?>">
-            <input type="hidden" name="id" value="<?php echo $fetchUpd['updateId']; ?>">
-        </div>
-        <button class="ui fluid right labeled icon blue button" type="submit">
-            <i class="right arrow icon"></i>
-            Next
-        </button>
-    </form>
+<div class="ui icon info message">
+    <i class="check info circle icon"></i>
+    <div class="content">
+        <div class="header">Found <?php echo count($updateArray); ?> update(s)</div>
+        <p>The following updates were found. Click on name of desired update to continue.</p>
+    </div>
 </div>
-
-<div class="ui bottom attached info message">
-    <i class="info icon"></i>
-    Click <i>Next</i> to select language and edition which you want to download.
-</div>
+<table class="ui celled striped table">
+    <thead>
+        <tr>
+            <th>Update</th>
+            <th>Architecture</th>
+            <th>Update ID</th>
+        </tr>
+    </thead>
+<?php
+foreach($updateArray as $update) {
+    echo '<tr><td>';
+    echo '<a href="./selectlang.php?id='.$update['updateId'].'"><big><b>';
+    echo $update['updateTitle'];
+    echo "</b></big></a>";
+    echo '<p><i>Build number: ';
+    echo $update['foundBuild'];
+    echo '</i></p>';
+    echo '</td><td>';
+    echo $update['arch'];
+    echo '</td><td>';
+    echo '<code>'.$update['updateId'].'</code>';
+    echo "</td></tr>\n";
+}
+?>
+</table>
 
 <?php
 styleLower();
