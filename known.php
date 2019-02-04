@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ if(empty($ids)) {
     die();
 }
 
-styleUpper('downloads');
+styleUpper('downloads', 'Browse known builds');
 ?>
 <div class="ui horizontal divider">
     <h3><i class="cubes icon"></i>Choose build</h3>

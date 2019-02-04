@@ -35,7 +35,7 @@ if(isset($fetchUpd['error'])) {
 }
 
 $updateArray = $fetchUpd['updateArray'];
-styleUpper('downloads');
+styleUpper('downloads', 'Response from server');
 ?>
 
 <div class="ui horizontal divider">

@@ -17,8 +17,14 @@ limitations under the License.
 
 require_once dirname(__FILE__).'/main.php';
 
-function styleUpper($pageType = 'home') {
+function styleUpper($pageType = 'home', $subtitle = '') {
     global $websiteVersion;
+    
+    if($subtitle) {
+        $title = "UUP dump: $subtitle";
+    } else {
+        $title = 'UUP dump';
+    }
 
     $enableDarkMode = 0;
     if(isset($_COOKIE['Dark-Mode'])) {
@@ -61,7 +67,7 @@ function styleUpper($pageType = 'home') {
     unset($key, $val, $index, $params, $shelf);
 
     if($enableDarkMode) {
-        $darkMode = '<link rel="stylesheet" href="shared/darkmode.css">';
+        $darkMode = '<link rel="stylesheet" href="shared/darkmode.css">'."\n";
         $darkSwitch = '<a class="item" href="'.$url.'dark=0"><i class="eye slash icon"></i>Light mode</a>';
     } else {
         $darkMode = '';
@@ -85,36 +91,36 @@ function styleUpper($pageType = 'home') {
 
     $navbarRight = $darkSwitch.'<a class="item" href="https://gitlab.com/uup-dump"><i class="code icon"></i>Source code</a>';
 
-    echo '<!DOCTYPE html>
+    echo <<<HTML
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <meta property="og:title" content="UUP dump">
+        <meta property="og:title" content="$title">
         <meta property="og:type" content="website">
         <meta property="og:description" content="Download UUP files from Windows Update servers with ease. This project is not affiliated with Microsoft Corporation.">
-        <meta property="og:image" content="'.$baseUrl.'/shared/img/icon.png">
+        <meta property="og:image" content="$baseUrl/shared/img/icon.png">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2/dist/semantic.min.css">
         <link rel="stylesheet" href="shared/style.css">
-        '.$darkMode.'
-
+        $darkMode
         <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2/dist/semantic.min.js"></script>
 
-        <title>UUP dump</title>
+        <title>$title</title>
 
         <script>
             function sidebar() {
-                $(\'.ui.sidebar\').sidebar(\'toggle\');
+                $('.ui.sidebar').sidebar('toggle');
             }
         </script>
     </head>
     <body>
         <div class="ui sidebar inverted vertical menu">
             <div class="ui container">
-                '.$navbarLink.$navbarRight.'
+                $navbarLink $navbarRight
             </div>
         </div>
         <div class="pusher">
@@ -123,7 +129,7 @@ function styleUpper($pageType = 'home') {
                     <h1>
                         <img src="shared/img/logo.svg" class="logo">UUP dump
                         <p class="version">
-                            v'.$websiteVersion.'
+                            v$websiteVersion
                         </p>
                     </h1>
                 </div>
@@ -131,32 +137,36 @@ function styleUpper($pageType = 'home') {
                 <div class="ui one column grid">
                     <div class="ui attached secondary inverted menu tablet computer only column">
                         <div class="ui container">
-                            '.$navbarLink.'
+                            $navbarLink
                             <div class="right menu">
-                                '.$navbarRight.'
+                                $navbarRight
                             </div>
                         </div>
                     </div>
                     <div class="ui attached secondary inverted menu mobile only column">
                         <div class="ui container">
-                            <a class="item" href="#" onClick="sidebar();"><i class="bars icon"></i>Menu</a>
+                            <a class="item" href="javascript:void(0)" onClick="sidebar();"><i class="bars icon"></i>Menu</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="ui container">';
+            <div class="ui container">
+HTML;
 }
 
 function styleLower() {
     global $websiteVersion;
-
-    echo '<div class="footer">
+    $api = uupApiVersion();
+    $year = date('Y');
+    
+    echo <<<HTML
+                <div class="footer">
                     <div class="ui divider"></div>
                     <p><i>
-                        <b>UUP dump</b> v'.$websiteVersion.'
-                        (<b>API</b> v'.uupApiVersion().')
-                        &copy; '.date('Y').' UUP dump authors.
+                        <b>UUP dump</b> v$websiteVersion
+                        (<b>API</b> v$api)
+                        &copy; $year UUP dump authors.
 
                         <span class="info">
                             This project is not affiliated with Microsoft Corporation.
@@ -167,7 +177,8 @@ function styleLower() {
             </div>
         </div>
     </body>
-</html>';
+</html>
+HTML;
 }
 
 function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
@@ -256,7 +267,8 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
         $errorFancy = $errorFancy.'<br>'.$moreText;
     }
 
-    styleUpper($pageType);
+    http_response_code(500);
+    styleUpper($pageType, 'Error');
 
     echo '<div class="ui horizontal divider">
     <h3><i class="warning icon"></i>Request not successful</h3>

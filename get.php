@@ -54,45 +54,20 @@ if($autoDl) {
     $url .=  $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
     $url .= '?id='.$updateId.'&pack='.$usePack.'&edition='.$desiredEdition.'&aria2=1';
 
-    if($autoDl == 1) {
-        createAria2Package($url, $archiveName);
+    switch($autoDl) {
+        case 1:
+            createAria2Package($url, $archiveName);
+            break;
+        case 2:
+            createUupConvertPackage($url, $archiveName);
+            break;
+        case 3:
+            createUupConvertPackage($url, $archiveName, 1);
+            break;
+        default:
+            echo 'Unknown package';
     }
-
-    if($autoDl == 2) {
-        createUupConvertPackage($url, $archiveName);
-    }
-
     die();
-}
-
-$aria2ActionInfo = 'You can quickly download these files at once using aria2.
-<br>Click one of buttons that can be found below to
-generate and download archive with script that will download everyting
-automatically and eventually convert it to ISO file.
-
-<br><br>The archive will contain aria2c.exe application, and an
-aria2_download_windows.cmd script that will start the download process.
-
-<br>The archive will also contain an aria2_download_linux.sh script, which
-can be used if you are using Linux. This script has the same functionality
-as the Windows one.
-
-<br><br>If you choose option with conversion, then archive will also include a
-conversion script that will be run after successful download.
-
-<br><br>Aria2 is an open source project. You can find it here:
-<a href="https://aria2.github.io/">https://aria2.github.io/</a>.
-<br>UUP Conversion script (Windows version) has been created by
-<a href="https://forums.mydigitallife.net/members/abbodi1406.204274/">abbodi1406</a>.
-<br>UUP Conversion script (Linux version) is open source. You can find it here:
-<a href="https://gitlab.com/uup-dump/converter">https://gitlab.com/uup-dump/converter</a>.';
-
-if(!$usePack) {
-    $aria2ActionInfo = 'You have selected All languages option.<br>
-Automatic aria2 download for this option is not supported.
-<br><br>
-If you want to download and convert UUP files automatically,
-please go back, select language and edition/editions.';
 }
 
 $files = uupGetFiles($updateId, $usePack, $desiredEdition, 1);
@@ -108,10 +83,6 @@ $files = $files['files'];
 $filesKeys = array_keys($files);
 
 $request = explode('?', $_SERVER['REQUEST_URI'], 2);
-$loc = $request[0].'?';
-foreach ($_GET as $key => $value) {
-    $loc=$loc.$key.'='.$value.'&';
-}
 
 if($simple) {
     header('Content-Type: text/plain');
@@ -136,7 +107,7 @@ if($aria2) {
     die();
 }
 
-styleUpper('downloads');
+styleUpper('downloads', "List of files for $updateName $updateArch");
 ?>
 
 <div class="ui horizontal divider">
@@ -148,26 +119,6 @@ if(!file_exists('packs/'.$updateId.'.json.gz')) {
     styleNoPackWarn();
 }
 ?>
-
-<div class="ui segment">
-<h3>Download using aria2</h3>
-<?php
-echo '<p>'.$aria2ActionInfo.'</p>';
-
-if($usePack) {
-    echo '<div class="two ui buttons">
-        <a class="ui labeled icon primary button" href="'.$loc.'autodl=2">
-            <i class="archive icon"></i>
-            Download using aria2 and then convert
-        </a>
-        <a class="ui right labeled icon button" href="'.$loc.'autodl=1">
-            <i class="download icon"></i>
-            Download using aria2
-        </a>
-    </div>';
-}
-?>
-</div>
 
 <table class="ui celled striped table">
     <thead>

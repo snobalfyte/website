@@ -55,7 +55,7 @@ if(isset($updateInfo['containsCU']) && $updateInfo['containsCU'] = 1) {
     $containsCU = 0;
 }
 
-styleUpper('downloads');
+styleUpper('downloads', "Select language for $updateTitle");
 ?>
 
 <div class="ui horizontal divider">

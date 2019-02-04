@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ limitations under the License.
 
 require_once 'api/listid.php';
 require_once 'shared/style.php';
-styleUpper('downloads');
+styleUpper('downloads', 'Fetch latest build');
 
 $builds = array(
     '15063.0',

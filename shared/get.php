@@ -26,9 +26,10 @@ function sortBySize($a, $b) {
 }
 
 //Create aria2 download package with conversion script
-function createUupConvertPackage($url, $archiveName) {
+function createUupConvertPackage($url, $archiveName, $virtualEditions = 0) {
     $currDir = dirname(__FILE__).'/..';
-    $cmdScript = '@echo off
+    $cmdScript = <<<SCRIPT
+@echo off
 cd /d "%~dp0"
 
 if NOT "%cd%"=="%cd: =%" (
@@ -39,13 +40,13 @@ if NOT "%cd%"=="%cd: =%" (
     goto :EOF
 )
 
-REG QUERY HKU\S-1-5-19\Environment >NUL 2>&1
+REG QUERY HKU\\S-1-5-19\\Environment >NUL 2>&1
 IF %ERRORLEVEL% EQU 0 goto :START_PROCESS
 
 set "command="""%~f0""" %*"
-set "command=%command:\'=\'\'%"
+set "command=%command:'=''%"
 
-powershell Start-Process -FilePath \'%COMSPEC%\' -ArgumentList \'/c """%command%"""\' -Verb RunAs 2>NUL
+powershell Start-Process -FilePath '%COMSPEC%' -ArgumentList '/c """%command%"""' -Verb RunAs 2>NUL
 IF %ERRORLEVEL% GTR 0 (
     echo =====================================================
     echo This script needs to be executed as an administrator.
@@ -57,10 +58,10 @@ IF %ERRORLEVEL% GTR 0 (
 goto :EOF
 
 :START_PROCESS
-set "aria2=files\aria2c.exe"
-set "a7z=files\7zdec.exe"
-set "uupConv=files\uup-converter-wimlib.7z"
-set "aria2Script=files\aria2_script.txt"
+set "aria2=files\\aria2c.exe"
+set "a7z=files\\7zdec.exe"
+set "uupConv=files\\uup-converter-wimlib.7z"
+set "aria2Script=files\\aria2_script.txt"
 set "destDir=UUPs"
 
 if NOT EXIST %aria2% goto :NO_ARIA2_ERROR
@@ -69,10 +70,11 @@ if NOT EXIST %uupConv% goto :NO_FILE_ERROR
 
 echo Extracting UUP converter...
 "%a7z%" x "%uupConv%" >NUL
+move /y files\\ConvertConfig.ini . >NUL
 echo.
 
 echo Retrieving updated aria2 script...
-"%aria2%" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "'.$url.'"
+"%aria2%" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "$url"
 if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
 echo.
 
@@ -89,7 +91,7 @@ call convert-UUP.cmd
 goto :EOF
 
 :NO_ARIA2_ERROR
-echo We couldn\'t find %aria2% in current directory.
+echo We couldn't find %aria2% in current directory.
 echo.
 echo You can download aria2 from:
 echo https://aria2.github.io/
@@ -98,7 +100,7 @@ pause
 goto :EOF
 
 :NO_FILE_ERROR
-echo We couldn\'t find one of needed files for this script.
+echo We couldn't find one of needed files for this script.
 pause
 goto :EOF
 
@@ -108,14 +110,16 @@ pause
 goto :EOF
 
 :EOF
-';
 
-$shellScript = '#/bin/bash
+SCRIPT;
 
-if ! which aria2c >/dev/null \
-|| ! which cabextract >/dev/null \
-|| ! which wimlib-imagex >/dev/null \
-|| ! which chntpw >/dev/null \
+$shellScript = <<<SCRIPT
+#/bin/bash
+
+if ! which aria2c >/dev/null \\
+|| ! which cabextract >/dev/null \\
+|| ! which wimlib-imagex >/dev/null \\
+|| ! which chntpw >/dev/null \\
 || ! which genisoimage >/dev/null; then
   echo "One of required applications is not installed."
   echo "The following applications need to be installed to use this script:"
@@ -132,14 +136,14 @@ fi
 
 destDir="UUPs"
 tempDir=`mktemp -d`
-tempScript="$tempDir/aria2.txt"
+tempScript="\$tempDir/aria2.txt"
 
 function cleanup() {
-  rm -rf "$tempDir"
+  rm -rf "\$tempDir"
 }
 
 echo "Retrieving updated aria2 script..."
-aria2c -o"aria2.txt" -d"$tempDir" --allow-overwrite=true --auto-file-renaming=false "'.$url.'"
+aria2c -o"aria2.txt" -d"\$tempDir" --allow-overwrite=true --auto-file-renaming=false "$url"
 if [ $? != 0 ]; then
   echo "Failed to retrieve aria2 script"
   cleanup
@@ -148,7 +152,7 @@ fi
 
 echo ""
 echo "Starting download of files..."
-aria2c -x16 -s16 -j5 -c -R -d"$destDir" -i"$tempScript"
+aria2c -x16 -s16 -j5 -c -R -d"\$destDir" -i"\$tempScript"
 if [ $? != 0 ]; then
   echo "We have encountered an error while downloading files."
   cleanup
@@ -158,9 +162,30 @@ fi
 echo ""
 if [ -e ./files/convert.sh ]; then
   chmod +x ./files/convert.sh
-  ./files/convert.sh wim "$destDir"
+  ./files/convert.sh wim "\$destDir"
 fi
-';
+
+SCRIPT;
+
+    $convertConfig = <<<CONFIG
+[convert-UUP]
+AutoStart    =1
+AddUpdates   =1
+ResetBase    =0
+StartVirtual =$virtualEditions
+SkipISO      =0
+SkipWinRE    =0
+ForceDism    =0
+RefESD       =0
+
+[create_virtual_editions]
+vAutoStart   =1
+vDeleteSource=0
+vPreserve    =0
+vSkipISO     =0
+vAutoEditions=Enterprise,Education,ProfessionalEducation,ProfessionalWorkstation,EnterpriseN,EducationN,ProfessionalEducationN,ProfessionalWorkstationN,CoreSingleLanguage,ServerRdsh
+
+CONFIG;
 
     $zip = new ZipArchive;
     $archive = @tempnam($currDir.'/tmp', 'zip');
@@ -185,6 +210,7 @@ fi
     if($open === TRUE) {
         $zip->addFromString('aria2_download_windows.cmd', $cmdScript);
         $zip->addFromString('aria2_download_linux.sh', $shellScript);
+        $zip->addFromString('files/ConvertConfig.ini', $convertConfig);
         $zip->addFile($currDir.'/autodl_files/aria2c.exe', 'files/aria2c.exe');
         $zip->addFile($currDir.'/autodl_files/convert.sh', 'files/convert.sh');
         $zip->addFile($currDir.'/autodl_files/7zdec.exe', 'files/7zdec.exe');
@@ -195,8 +221,14 @@ fi
         die();
     }
 
+    if($virtualEditions) {
+        $suffix = '_virtual';
+    } else {
+        $suffix = '';
+    }
+
     header('Content-Type: archive/zip');
-    header('Content-Disposition: attachment; filename="'.$archiveName.'_convert.zip"');
+    header('Content-Disposition: attachment; filename="'.$archiveName."_convert$suffix.zip\"");
     header('Content-Length: '.filesize($archive));
 
     $content = file_get_contents($archive);
@@ -208,17 +240,18 @@ fi
 //Create aria2 download package only
 function createAria2Package($url, $archiveName) {
     $currDir = dirname(__FILE__).'/..';
-    $cmdScript = '@echo off
+    $cmdScript = <<<SCRIPT
+@echo off
 cd /d "%~dp0"
 
-set "aria2=files\aria2c.exe"
-set "aria2Script=files\aria2_script.txt"
+set "aria2=files\\aria2c.exe"
+set "aria2Script=files\\aria2_script.txt"
 set "destDir=UUPs"
 
 if NOT EXIST %aria2% goto :NO_ARIA2_ERROR
 
 echo Retrieving updated aria2 script...
-"%aria2%" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "'.$url.'"
+"%aria2%" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "$url"
 if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
 
 echo Starting download of files...
@@ -230,7 +263,7 @@ pause
 goto EOF
 
 :NO_ARIA2_ERROR
-echo We couldn\'t find %aria2% in current directory.
+echo We couldn't find %aria2% in current directory.
 echo.
 echo You can download aria2 from:
 echo https://aria2.github.io/
@@ -244,9 +277,11 @@ pause
 goto EOF
 
 :EOF
-';
 
-$shellScript = '#/bin/bash
+SCRIPT;
+
+$shellScript = <<<SCRIPT
+#/bin/bash
 
 if ! which aria2c >/dev/null; then
   echo "One of required applications is not installed."
@@ -260,14 +295,14 @@ fi
 
 destDir="UUPs"
 tempDir=`mktemp -d`
-tempScript="$tempDir/aria2.txt"
+tempScript="\$tempDir/aria2.txt"
 
 function cleanup() {
-  rm -rf "$tempDir"
+  rm -rf "\$tempDir"
 }
 
 echo "Retrieving updated aria2 script..."
-aria2c -o"aria2.txt" -d"$tempDir" --allow-overwrite=true --auto-file-renaming=false "'.$url.'"
+aria2c -o"aria2.txt" -d"\$tempDir" --allow-overwrite=true --auto-file-renaming=false "$url"
 if [ $? != 0 ]; then
   echo "Failed to retrieve aria2 script"
   cleanup
@@ -276,13 +311,14 @@ fi
 
 echo ""
 echo "Starting download of files..."
-aria2c -x16 -s16 -j5 -c -R -d"$destDir" -i"$tempScript"
+aria2c -x16 -s16 -j5 -c -R -d"\$destDir" -i"\$tempScript"
 if [ $? != 0 ]; then
   echo "We have encountered an error while downloading files."
   cleanup
   exit 1
 fi
-';
+
+SCRIPT;
 
     $zip = new ZipArchive;
     $archive = @tempnam($currDir.'/tmp', 'zip');

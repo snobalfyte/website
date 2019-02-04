@@ -65,12 +65,7 @@ if($selectedLang) {
     $selectedLangName = 'All languages';
 }
 
-if(isset($updateInfo['containsCU']) && $updateInfo['containsCU'] = 1) {
-    $temp = array('updateOnly' => 'Update only');
-    $editions = array_merge($temp, $editions);
-}
-
-styleUpper('downloads');
+styleUpper('downloads', "Select edition for $updateTitle, $selectedLangName");
 ?>
 
 <div class="ui horizontal divider">
@@ -84,7 +79,7 @@ if(!file_exists('packs/'.$updateId.'.json.gz')) {
 ?>
 
 <div class="ui top attached segment">
-    <form class="ui form" action="./get.php" method="get">
+    <form class="ui form" action="./download.php" method="get">
         <div class="field">
             <label>Update</label>
             <input type="text" disabled value="<?php echo $updateTitle; ?>">
@@ -108,15 +103,15 @@ foreach($editions as $key => $val) {
 ?>
             </select>
         </div>
-        <button class="ui fluid right labeled icon red button" type="submit">
+        <button class="ui fluid right labeled icon primary button" type="submit">
             <i class="right arrow icon"></i>
             Next
         </button>
     </form>
 </div>
-<div class="ui bottom attached warning message">
-    <i class="warning icon"></i>
-    Click <i>Next</i> button to send your request to Windows Update servers.
+<div class="ui bottom attached info message">
+    <i class="info icon"></i>
+    Click <i>Next</i> button to open summary page of your selection.
 </div>
 
 <script>$('select.dropdown').dropdown();</script>
