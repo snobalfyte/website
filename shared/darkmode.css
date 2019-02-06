@@ -1,5 +1,5 @@
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -37,6 +37,8 @@ body,
 .ui.table thead,
 .ui.message,
 .ui.message .header,
+.ui.steps .active.step,
+.ui.steps .active.step::after,
 .ui.dropdown .menu .item:hover,
 .ui.dropdown .menu .selected.item {
     background-color: #222 !important;
@@ -51,6 +53,10 @@ body,
 label,
 .ui.table th,
 .ui.table thead,
+.ui.steps .step,
+.ui.steps .step .icon,
+.ui.steps .step .title,
+.ui.steps .step .description,
 .ui.message,
 .ui.message .header {
     color: #fff !important;
@@ -62,6 +68,8 @@ label,
 .ui.dropdown .text,
 .ui.dropdown input,
 .ui.dropdown .message,
+.ui.steps .step,
+.ui.steps .step::after,
 .ui input,
 .ui textarea {
     background-color: #1a1a1a !important;

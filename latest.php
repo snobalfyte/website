@@ -48,6 +48,19 @@ sort($builds);
     <h3><i class="options icon"></i>Choose options</h3>
 </div>
 
+<div class="ui icon warning message">
+    <i class="warning circle icon"></i>
+    <div class="content">
+        <div class="header">Notice about this page</div>
+        <p><b>This page is provided for testing purposes only.</b>
+        Builds retrieved by this page that were not processed by the backend
+        server will be provided using fallback packs, which may provide
+        incomplete results. If you want to download already known build,
+        please use the <a href="./known.php">known builds</a> page instead.
+        </p>
+    </div>
+</div>
+
 <div class="ui top attached segment">
     <form class="ui form" action="./fetchupd.php" method="get" id="optionsForm">
         <div class="field">

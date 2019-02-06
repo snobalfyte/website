@@ -162,10 +162,10 @@ INFO;
     <div class="header">
         Download using aria2 options notice
     </div>
-    <p>Download using aria2 options create archive which needs to be downloaded.
+    <p>Download using aria2 options create an archive which needs to be downloaded.
     The downloaded archive contains all needed files to achieve the selected task.</p>
 
-    <p><b>To start download process use script for your platform:</b><br>
+    <p><b>To start the download process use a script for your platform:</b><br>
     - Windows: <code>aria2_download_windows.cmd</code></br>
     - Linux: <code>aria2_download_linux.sh</code></br>
     </p>
@@ -178,6 +178,34 @@ INFO;
     <a href="https://gitlab.com/uup-dump/converter">https://gitlab.com/uup-dump/converter</a>.
     </p>
 </div>
+
+
+<div class="ui fluid tiny three steps">
+      <div class="completed step">
+            <i class="world icon"></i>
+            <div class="content">
+                  <div class="title">Choose language</div>
+                  <div class="description">Choose your desired language</div>
+            </div>
+      </div>
+
+      <div class="completed step">
+            <i class="archive icon"></i>
+            <div class="content">
+                  <div class="title">Choose edition</div>
+                  <div class="description">Choose your desired edition</div>
+            </div>
+      </div>
+
+      <div class="active step">
+            <i class="briefcase icon"></i>
+            <div class="content">
+                  <div class="title">Summary</div>
+                  <div class="description">Review your selection and choose download method</div>
+            </div>
+      </div>
+</div>
+
 
 <?php
 styleLower();

@@ -270,7 +270,8 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
     http_response_code(500);
     styleUpper($pageType, 'Error');
 
-    echo '<div class="ui horizontal divider">
+    echo <<<ERROR
+<div class="ui horizontal divider">
     <h3><i class="warning icon"></i>Request not successful</h3>
 </div>
 <div class="ui negative icon message">
@@ -278,20 +279,27 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
     <div class="content">
         <div class="header">An error has occurred</div>
         <p>We have encountered an error while processing your request.<br>
-        '.$errorFancy.'</p>
+        $errorFancy</p>
     </div>
-</div>';
+</div>
+ERROR;
 
     styleLower();
 }
 
 function styleNoPackWarn() {
-    echo '<div class="ui icon warning message">
+    echo <<<INFO
+<div class="ui icon warning message">
     <i class="warning circle icon"></i>
     <div class="content">
         <div class="header">Generated pack not available</div>
-        <p>The update you are attempting to download does not have a generated pack that provides full information about available languages, editions and files. The fallback pack will be used that may not provide the correct information. If download fails because of this, please wait for the automatically generated pack to become available.</p>
+        <p>The update you are attempting to download does not have a generated
+        pack that provides full information about available languages, editions
+        and files. The fallback pack will be used that may not provide the
+        correct information. If download fails because of this, please wait for
+        the automatically generated pack to become available.</p>
     </div>
 </div>
-';
+
+INFO;
 }

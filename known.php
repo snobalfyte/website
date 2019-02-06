@@ -63,12 +63,15 @@ styleUpper('downloads', 'Browse known builds');
     </thead>
 <?php
 foreach($ids as $val) {
+    $arch = $val['arch'];
+    if($arch == 'amd64') $arch = 'x64';
+
     echo '<tr><td>';
     echo '<i class="windows icon"></i>';
     echo '<a href="./selectlang.php?id='.$val['uuid'].'">'
          .$val['title'].' '.$val['arch']."</a>";
     echo '</td><td>';
-    echo $val['arch'];
+    echo $arch;
     echo '</td><td>';
     echo '<code>'.$val['uuid'].'</code>';
     echo "</td></tr>\n";

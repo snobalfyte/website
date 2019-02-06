@@ -114,6 +114,32 @@ foreach($editions as $key => $val) {
     Click <i>Next</i> button to open summary page of your selection.
 </div>
 
+<div class="ui fluid tiny three steps">
+      <div class="completed step">
+            <i class="world icon"></i>
+            <div class="content">
+                  <div class="title">Choose language</div>
+                  <div class="description">Choose your desired language</div>
+            </div>
+      </div>
+
+      <div class="active step">
+            <i class="archive icon"></i>
+            <div class="content">
+                  <div class="title">Choose edition</div>
+                  <div class="description">Choose your desired edition</div>
+            </div>
+      </div>
+
+      <div class="step">
+            <i class="briefcase icon"></i>
+            <div class="content">
+                  <div class="title">Summary</div>
+                  <div class="description">Review your selection and choose download method</div>
+            </div>
+      </div>
+</div>
+
 <script>$('select.dropdown').dropdown();</script>
 
 <?php
