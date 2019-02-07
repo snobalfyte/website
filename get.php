@@ -26,6 +26,7 @@ require_once 'api/get.php';
 require_once 'api/updateinfo.php';
 require_once 'shared/get.php';
 require_once 'shared/style.php';
+require_once 'shared/ratelimits.php';
 
 if(!preg_match('/^[\da-fA-F]{8}-([\da-fA-F]{4}-){3}[\da-fA-F]{12}(_rev\.\d+)?$/', $updateId)) {
     fancyError('INCORRECT_ID', 'downloads');
@@ -67,6 +68,12 @@ if($autoDl) {
         default:
             echo 'Unknown package';
     }
+    die();
+}
+
+$resource = hash('sha1', strtolower("get-$updateId"));
+if(checkIfUserIsRateLimited($resource)) {
+    fancyError('RATE_LIMITED', 'downloads');
     die();
 }
 

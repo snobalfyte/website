@@ -24,9 +24,13 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : 48;
 
 require_once 'api/fetchupd.php';
 require_once 'shared/style.php';
+require_once 'shared/ratelimits.php';
 
-$cacheHash = hash('sha1', strtolower("fetch-$arch-$ring-$flight-$build-$minor-$sku"));
-$cached = 0;
+$resource = hash('sha1', strtolower("fetch-$arch-$ring-$flight-$build-$minor-$sku"));
+if(checkIfUserIsRateLimited($resource)) {
+    fancyError('RATE_LIMITED', 'downloads');
+    die();
+}
 
 $fetchUpd = uupFetchUpd($arch, $ring, $flight, $build, $minor, $sku, 1);
 if(isset($fetchUpd['error'])) {

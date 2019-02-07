@@ -19,7 +19,7 @@ require_once dirname(__FILE__).'/main.php';
 
 function styleUpper($pageType = 'home', $subtitle = '') {
     global $websiteVersion;
-    
+
     if($subtitle) {
         $title = "UUP dump: $subtitle";
     } else {
@@ -159,7 +159,7 @@ function styleLower() {
     global $websiteVersion;
     $api = uupApiVersion();
     $year = date('Y');
-    
+
     echo <<<HTML
                 <div class="footer">
                     <div class="ui divider"></div>
@@ -257,6 +257,9 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
             break;
         case 'INCORRECT_ID':
             $errorFancy = 'Specified Update ID is not a correct Update ID. Please make sure that Update ID is a correct Update ID.';
+            break;
+        case 'RATE_LIMITED':
+            $errorFancy = 'You are being rate limited. Please try again in a few seconds.';
             break;
         default:
             $errorFancy = '<i>Error message is not available.</i><br><br>'.$errorCode;

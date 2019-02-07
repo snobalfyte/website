@@ -44,21 +44,33 @@ $builds = array_unique($builds);
 sort($builds);
 ?>
 
-<div class="ui horizontal divider">
-    <h3><i class="options icon"></i>Choose options</h3>
-</div>
-
-<div class="ui icon warning message">
-    <i class="warning circle icon"></i>
+<div class="ui basic modal">
+    <div class="ui icon header">
+        <i class="exclamation triangle icon"></i>
+        Testing purposes only
+    </div>
     <div class="content">
-        <div class="header">Notice about this page</div>
         <p><b>This page is provided for testing purposes only.</b>
         Builds retrieved by this page that were not processed by the backend
         server will be provided using fallback packs, which may provide
-        incomplete results. If you want to download already known build,
-        please use the <a href="./known.php">known builds</a> page instead.
-        </p>
+        incomplete results. If you want to download an already known build,
+        for the best experience please use the known builds page instead.</p>
+        <p>Would you like to continue by browsing the list of known builds?</p>
     </div>
+    <div class="actions">
+        <div class="ui red ok inverted button">
+            <i class="close icon icon"></i>
+            No
+        </div>
+        <a class="ui green inverted button" href="./known.php">
+            <i class="checkmark icon"></i>
+            Yes (recommended)
+        </a>
+    </div>
+</div>
+
+<div class="ui horizontal divider">
+    <h3><i class="options icon"></i>Choose options</h3>
 </div>
 
 <div class="ui top attached segment">
@@ -120,6 +132,10 @@ foreach($builds as $val) {
 <script>
     $('.ui.checkbox').checkbox();
     $('select.dropdown').dropdown();
+    $('.ui.basic.modal')
+        .modal('setting', 'closable', false)
+        .modal('show')
+    ;
 
     function checkRing() {
         form = document.getElementById('optionsForm');

@@ -37,22 +37,22 @@ styleUpper('home');
 
 <div class="ui two columns stackable centered grid">
     <div class="column">
-        <a class="ui top attached fluid labeled icon large button" href="./latest.php">
-            <i class="checkmark icon"></i>
-            Fetch latest build
+        <a class="ui top attached fluid labeled icon large blue button" href="./known.php">
+            <i class="server icon"></i>
+            Browse a list of known builds
         </a>
         <div class="ui bottom attached segment">
-            Retrieve latest build information from Windows Update servers and download it.
+            Choose a build that is already known in the local database and download it.
         </div>
     </div>
 
     <div class="column">
-        <a class="ui top attached fluid labeled icon large blue button" href="./known.php">
-            <i class="server icon"></i>
-            Browse known builds
+        <a class="ui top attached fluid labeled icon large button" href="./latest.php">
+            <i class="fire icon"></i>
+            Fetch the latest build
         </a>
         <div class="ui bottom attached segment">
-            Choose build that is known in the local database and download it.
+            Retrieve the latest build information from Windows Update servers and download it.
         </div>
     </div>
 </div>
