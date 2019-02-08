@@ -39,18 +39,18 @@ if(isset($fetchUpd['error'])) {
 }
 
 $updateArray = $fetchUpd['updateArray'];
-styleUpper('downloads', 'Response from server');
+styleUpper('downloads', 'Response from the server');
 ?>
 
 <div class="ui horizontal divider">
-    <h3><i class="wizard icon"></i>Response from server</h3>
+    <h3><i class="wizard icon"></i>Response from the server</h3>
 </div>
 
 <div class="ui icon info message">
     <i class="check info circle icon"></i>
     <div class="content">
         <div class="header">Found <?php echo count($updateArray); ?> update(s)</div>
-        <p>The following updates were found. Click on name of desired update to continue.</p>
+        <p>The following updates were found. Click on the name of desired update to continue.</p>
     </div>
 </div>
 <table class="ui celled striped table">

@@ -17,7 +17,7 @@ limitations under the License.
 
 require_once 'api/listid.php';
 require_once 'shared/style.php';
-styleUpper('downloads', 'Fetch latest build');
+styleUpper('downloads', 'Fetch the latest build');
 
 $builds = array(
     '15063.0',
@@ -126,7 +126,7 @@ foreach($builds as $val) {
 
 <div class="ui bottom attached warning message">
     <i class="warning icon"></i>
-    Click <i>Fetch updates</i> button to send your request to Windows Update servers.
+    Click <i>Fetch updates</i> button to send your request to the Windows Update servers.
 </div>
 
 <script>
