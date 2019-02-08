@@ -34,10 +34,6 @@ function checkIfUserIsRateLimited($resource, $timeLimit = 10) {
     $accessedRes = $info['resource'];
     $blockAccessTime = $lastAccess + $timeLimit;
 
-    if($lastAccess + 1 > time() && $accessedRes == $resource) {
-        return true;
-    }
-
     if($blockAccessTime > time() && $accessedRes != $resource) {
         return true;
     }
@@ -46,5 +42,10 @@ function checkIfUserIsRateLimited($resource, $timeLimit = 10) {
     $info['resource'] = $resource;
 
     @file_put_contents('cache/'.$ipHash.'.json', json_encode($info)."\n");
+
+    if($lastAccess + 1 > time() && $accessedRes == $resource) {
+        return true;
+    }
+
     return false;
 }
