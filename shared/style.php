@@ -182,6 +182,7 @@ HTML;
 }
 
 function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
+    $errorNumber = 500;
     switch ($errorCode) {
         case 'ERROR':
             $errorFancy = 'Generic error.';
@@ -259,6 +260,7 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
             $errorFancy = 'Specified Update ID is not a correct Update ID. Please make sure that Update ID is a correct Update ID.';
             break;
         case 'RATE_LIMITED':
+            $errorNumber = 429;
             $errorFancy = 'You are being rate limited. Please try again in a few seconds.';
             break;
         default:
@@ -270,7 +272,11 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
         $errorFancy = $errorFancy.'<br>'.$moreText;
     }
 
-    http_response_code(500);
+    http_response_code($errorNumber);
+    if($errorNumber == 429) {
+        header('Retry-After: 10');
+    }
+
     styleUpper($pageType, 'Error');
 
     echo <<<ERROR
