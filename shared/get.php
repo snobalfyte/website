@@ -59,7 +59,7 @@ goto :EOF
 
 :START_PROCESS
 set "aria2=files\\aria2c.exe"
-set "a7z=files\\7zdec.exe"
+set "a7z=files\\7zr.exe"
 set "uupConv=files\\uup-converter-wimlib.7z"
 set "aria2Script=files\\aria2_script.txt"
 set "destDir=UUPs"
@@ -69,8 +69,8 @@ if NOT EXIST %a7z% goto :NO_FILE_ERROR
 if NOT EXIST %uupConv% goto :NO_FILE_ERROR
 
 echo Extracting UUP converter...
-"%a7z%" x "%uupConv%" >NUL
-move /y files\\ConvertConfig.ini . >NUL
+"%a7z%" -y x "%uupConv%" >NUL
+copy /y files\\ConvertConfig.ini . >NUL
 echo.
 
 echo Retrieving updated aria2 script...
@@ -199,8 +199,8 @@ CONFIG;
         die('aria2c.exe does not exist');
     }
 
-    if(!file_exists($currDir.'/autodl_files/7zdec.exe')) {
-        die('7zdec.exe does not exist');
+    if(!file_exists($currDir.'/autodl_files/7zr.exe')) {
+        die('7zr.exe does not exist');
     }
 
     if(!file_exists($currDir.'/autodl_files/uup-converter-wimlib.7z')) {
@@ -213,7 +213,7 @@ CONFIG;
         $zip->addFromString('files/ConvertConfig.ini', $convertConfig);
         $zip->addFile($currDir.'/autodl_files/aria2c.exe', 'files/aria2c.exe');
         $zip->addFile($currDir.'/autodl_files/convert.sh', 'files/convert.sh');
-        $zip->addFile($currDir.'/autodl_files/7zdec.exe', 'files/7zdec.exe');
+        $zip->addFile($currDir.'/autodl_files/7zr.exe', 'files/7zr.exe');
         $zip->addFile($currDir.'/autodl_files/uup-converter-wimlib.7z', 'files/uup-converter-wimlib.7z');
         $zip->close();
     } else {

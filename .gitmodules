@@ -1,3 +1,6 @@
 [submodule "api"]
 	path = api
 	url = git@gitlab.com:uup-dump/api.git
+[submodule "autodl_files"]
+	path = autodl_files
+	url = git@gitlab.com:uup-dump/autodl_files.git
