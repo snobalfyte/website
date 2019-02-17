@@ -44,6 +44,14 @@ if(isset($updates['error'])) {
     $hasUpdates = 1;
 }
 
+$build = explode('.', $files['build']);
+$build = @$build[0];
+if($build < 17107) {
+    $disableVE = 'disabled';
+} else {
+    $disableVE = '';
+}
+
 $updateTitle = "{$files['updateName']} {$files['arch']}";
 $files = $files['files'];
 
@@ -117,7 +125,7 @@ if(!file_exists('packs/'.$updateId.'.json.gz')) {
             Easily download the selected UUP set using aria2 and convert it to ISO.
         </div>
 
-        <a class="ui top attached fluid labeled icon large button" href="<?php echo $url; ?>&autodl=3">
+        <a class="ui top attached fluid labeled icon large <?php echo $disableVE; ?> button" href="<?php echo $url; ?>&autodl=3">
             <i class="archive icon"></i>
             Download using aria2, convert and create virtual editions
         </a>

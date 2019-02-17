@@ -63,7 +63,15 @@ if($autoDl) {
             createUupConvertPackage($url, $archiveName);
             break;
         case 3:
-            createUupConvertPackage($url, $archiveName, 1);
+            $build = explode('.', $updateBuild);
+            $build = @$build[0];
+
+            if($build < 17107) {
+                echo 'Not available for this build.';
+            } else {
+                createUupConvertPackage($url, $archiveName, 1);
+            }
+
             break;
         default:
             echo 'Unknown package';
