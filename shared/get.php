@@ -75,12 +75,12 @@ echo.
 
 echo Retrieving updated aria2 script...
 "%aria2%" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "$url"
-if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
+if %ERRORLEVEL% GTR 0 call :DOWNLOAD_ERROR & exit /b 1
 echo.
 
 echo Starting download of files...
 "%aria2%" -x16 -s16 -j5 -c -R -d"%destDir%" -i"%aria2Script%"
-if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
+if %ERRORLEVEL% GTR 0 call :DOWNLOAD_ERROR & exit /b 1
 
 if EXIST convert-UUP.cmd goto :START_CONVERT
 pause
@@ -114,7 +114,7 @@ goto :EOF
 SCRIPT;
 
 $shellScript = <<<SCRIPT
-#/bin/bash
+#!/bin/bash
 
 if ! which aria2c >/dev/null \\
 || ! which cabextract >/dev/null \\
@@ -252,11 +252,11 @@ if NOT EXIST %aria2% goto :NO_ARIA2_ERROR
 
 echo Retrieving updated aria2 script...
 "%aria2%" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "$url"
-if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
+if %ERRORLEVEL% GTR 0 call :DOWNLOAD_ERROR & exit /b 1
 
 echo Starting download of files...
 "%aria2%" -x16 -s16 -j5 -c -R -d"%destDir%" -i"%aria2Script%"
-if %ERRORLEVEL% GTR 0 goto DOWNLOAD_ERROR
+if %ERRORLEVEL% GTR 0 call :DOWNLOAD_ERROR & exit /b 1
 
 erase /q /s "%aria2Script%" >NUL 2>&1
 pause
@@ -281,7 +281,7 @@ goto EOF
 SCRIPT;
 
 $shellScript = <<<SCRIPT
-#/bin/bash
+#!/bin/bash
 
 if ! which aria2c >/dev/null; then
   echo "One of required applications is not installed."
