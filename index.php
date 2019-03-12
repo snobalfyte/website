@@ -88,7 +88,7 @@ EOD;
     $i = 0;
     foreach($ids as $val) {
         $i++;
-        if($i > 10) break;
+        if($i > 15) break;
 
         $arch = $val['arch'];
         if($arch == 'amd64') $arch = 'x64';
