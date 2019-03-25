@@ -19,6 +19,7 @@ header('Content-Type: text/plain');
 
 $userAgent = $_SERVER['HTTP_USER_AGENT'];
 $bannedAgents = array(
+    'AutoHotkey',
     'UUP dump downloader/0.3.0-alpha',
     'UUP dump downloader/0.4.0-alpha',
     'UUP dump downloader/0.5.0-alpha',
@@ -31,6 +32,7 @@ $bannedAgents = array(
     'UUP dump downloader/1.0.0-beta.7',
     'UUP dump downloader/1.0.0-rc.1',
     'UUP dump downloader/1.0.0',
+    'UUP dump downloader/1.0.1',
     'UUP dump downloader/1.1.0-alpha.1',
     'UUP dump downloader/1.1.0-alpha.2',
     'UUP dump downloader/1.1.0-alpha.3',
@@ -41,7 +43,7 @@ $bannedAgents = array(
 );
 
 if(in_array($userAgent, $bannedAgents)) {
-    echo "0||00000000-0000-0000-0000-000000000000|Old version of tool! Please update: https://0x0.st/sBa\n";
+    echo "0||00000000-0000-0000-0000-000000000000|Outdated tool! Please update: https://0x0.st/sBa\n";
     die();
 }
 
