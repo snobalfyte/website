@@ -33,7 +33,19 @@ if(!preg_match('/^[\da-fA-F]{8}-([\da-fA-F]{4}-){3}[\da-fA-F]{12}(_rev\.\d+)?$/'
     die();
 }
 
+$resource = hash('sha1', strtolower("get-$updateId"));
+if(checkIfUserIsRateLimited($resource)) {
+    fancyError('RATE_LIMITED', 'downloads');
+    die();
+}
+
 if($autoDl) {
+    $files = uupGetFiles($updateId, $usePack, $desiredEdition, 2);
+    if(isset($files['error'])) {
+        fancyError($files['error'], 'downloads');
+        die();
+    }
+
     $info = uupUpdateInfo($updateId);
     $info = @$info['info'];
 
@@ -76,12 +88,6 @@ if($autoDl) {
         default:
             echo 'Unknown package';
     }
-    die();
-}
-
-$resource = hash('sha1', strtolower("get-$updateId"));
-if(checkIfUserIsRateLimited($resource)) {
-    fancyError('RATE_LIMITED', 'downloads');
     die();
 }
 
