@@ -20,6 +20,7 @@ header('Content-Type: text/plain');
 $userAgent = $_SERVER['HTTP_USER_AGENT'];
 $bannedAgents = array(
     'AutoHotkey',
+    'aria2/1.32.0',
     'UUP dump downloader/0.3.0-alpha',
     'UUP dump downloader/0.4.0-alpha',
     'UUP dump downloader/0.5.0-alpha',
