@@ -97,6 +97,7 @@ function styleUpper($pageType = 'home', $subtitle = '') {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="description" content="Download UUP files from Windows Update servers with ease. This project is not affiliated with Microsoft Corporation.">
 
         <meta property="og:title" content="$title">
         <meta property="og:type" content="website">
