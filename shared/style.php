@@ -93,7 +93,7 @@ function styleUpper($pageType = 'home', $subtitle = '') {
 
     echo <<<HTML
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -128,10 +128,10 @@ function styleUpper($pageType = 'home', $subtitle = '') {
             <div class="page-header">
                 <div class="ui title container">
                     <h1>
-                        <img src="shared/img/logo.svg" class="logo">UUP dump
-                        <p class="version">
+                        <img src="shared/img/logo.svg" class="logo" alt="">UUP dump
+                        <span class="version">
                             v$websiteVersion
-                        </p>
+                        </span>
                     </h1>
                 </div>
 
@@ -198,24 +198,31 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
             $errorFancy = 'The <i>fileinfo</i> database does not contain any build.';
             break;
         case 'SEARCH_NO_RESULTS':
+            $errorNumber = 400;
             $errorFancy = 'No builds could be found for specified query.';
             break;
         case 'UNKNOWN_ARCH':
+            $errorNumber = 400;
             $errorFancy = 'Unknown processor architecture.';
             break;
         case 'UNKNOWN_RING':
+            $errorNumber = 400;
             $errorFancy = 'Unknown ring.';
             break;
         case 'UNKNOWN_FLIGHT':
+            $errorNumber = 400;
             $errorFancy = 'Unknown flight.';
             break;
         case 'UNKNOWN_COMBINATION':
+            $errorNumber = 400;
             $errorFancy = 'The flight and ring combination is not correct. Skip ahead is only supported for Insider Fast ring.';
             break;
         case 'ILLEGAL_BUILD':
+            $errorNumber = 400;
             $errorFancy = 'Specified build number is less than 9841 or larger than '. (PHP_INT_MAX-1) .'.';
             break;
         case 'ILLEGAL_MINOR':
+            $errorNumber = 400;
             $errorFancy = 'Specified build minor is incorrect.';
             break;
         case 'NO_UPDATE_FOUND':
@@ -234,30 +241,38 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
             $errorFancy = 'There are no metadata ESD files available for your selection.';
             break;
         case 'UNSUPPORTED_LANG':
+            $errorNumber = 400;
             $errorFancy = 'Specified language is not supported.';
             break;
         case 'UNSPECIFIED_LANG':
+            $errorNumber = 400;
             $errorFancy = 'Language was not specified.';
             break;
         case 'UNSUPPORTED_EDITION':
+            $errorNumber = 400;
             $errorFancy = 'Specified edition is not supported.';
             break;
         case 'UNSUPPORTED_COMBINATION':
+            $errorNumber = 400;
             $errorFancy = 'The language and edition combination is not correct.';
             break;
         case 'NOT_CUMULATIVE_UPDATE':
+            $errorNumber = 400;
             $errorFancy = 'Selected update does not contain Cumulative Update.';
             break;
         case 'UPDATE_INFORMATION_NOT_EXISTS':
             $errorFancy = 'Information about specified update doest not exist in database.';
             break;
         case 'KEY_NOT_EXISTS':
+            $errorNumber = 400;
             $errorFancy = 'Specified key does not exist in update information';
             break;
         case 'UNSPECIFIED_UPDATE':
+            $errorNumber = 400;
             $errorFancy = 'Update ID was not specified.';
             break;
         case 'INCORRECT_ID':
+            $errorNumber = 400;
             $errorFancy = 'Specified Update ID is not a correct Update ID. Please make sure that Update ID is a correct Update ID.';
             break;
         case 'RATE_LIMITED':

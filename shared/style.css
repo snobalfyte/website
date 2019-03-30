@@ -1,5 +1,5 @@
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -47,6 +47,7 @@ limitations under the License.
     bottom: 1em;
     font-size: 9pt;
     opacity: 0.5;
+    line-height: 1rem;
 }
 
 .footer {
