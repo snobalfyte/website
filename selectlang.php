@@ -96,13 +96,13 @@ foreach($langs as $key => $val) {
             <label>Files</label>
             <div class="field">
                 <div class="ui radio checkbox">
-                    <input type="radio" name="edition" value="0" checked disabled>
+                    <input type="radio" name="q" value="" checked disabled>
                     <label>All files</label>
                 </div>
             </div>
             <div class="field">
                 <div class="ui radio checkbox">
-                    <input type="radio" name="edition" value="wubFile" disabled>
+                    <input type="radio" name="q" value="WindowsUpdateBox.exe" disabled>
                     <label>WindowsUpdateBox only</label>
                 </div>
             </div>
@@ -110,7 +110,7 @@ foreach($langs as $key => $val) {
 if($containsCU) {
     echo '<div class="field">
     <div class="ui radio checkbox">
-        <input type="radio" name="edition" value="updateOnly" disabled>
+        <input type="radio" name="q" value="Windows10 KB" disabled>
         <label>Update only</label>
     </div>
 </div>';
@@ -166,7 +166,7 @@ if($containsCU) {
         var file = document.getElementById('filesSelection');
 
         if(form.pack.value == 0) {
-            form.action = './get.php';
+            form.action = './findfiles.php';
             btn.className = "ui fluid right labeled icon red button";
             msg.className = "ui bottom attached warning message";
             msg.innerHTML = '<i class="warning icon"></i>' +
@@ -174,9 +174,9 @@ if($containsCU) {
                             'to Windows Update servers.';
 
             file.style.display = "block";
-            radioCount = form.edition.length;
+            radioCount = form.q.length;
             for(i = 0; i < radioCount; i++) {
-                form.edition[i].disabled = false;
+                form.q[i].disabled = false;
             }
         } else {
             form.action = './selectedition.php';
@@ -192,9 +192,9 @@ if($containsCU) {
                             '</div>';
 
             file.style.display = "none";
-            radioCount = form.edition.length;
+            radioCount = form.q.length;
             for(i = 0; i < radioCount; i++) {
-                form.edition[i].disabled = true;
+                form.q[i].disabled = true;
             }
         }
     }

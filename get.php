@@ -152,36 +152,29 @@ if(!file_exists('packs/'.$updateId.'.json.gz')) {
     </thead>
 <?php
 $totalSize = 0;
+$prefixes = array('', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi', 'Yi');
+
 foreach($filesKeys as $val) {
     $totalSize = $totalSize + $files[$val]['size'];
     $size = $files[$val]['size'];
 
-    $sizeType = '';
-    if($size > 1024) {
+    foreach($prefixes as $prefix) {
+        if($size < 1024) break;
         $size = $size / 1024;
-        $sizeType = 'K';
-        if($size > 1024) {
-            $size = $size / 1024;
-            $sizeType = 'M';
-        }
     }
+    $size = round($size);
+    $size = "$size {$prefix}B";
 
-    $size = round($size).$sizeType.'B';
     echo '<tr><td><a href="'.$files[$val]['url'].'">'.$val.'</a></td><td>'.gmdate("Y-m-d H:i:s T", $files[$val]['expire']).'</td>';
     echo '<td><code>'.$files[$val]['sha1'].'</code></td><td>'.$size.'</td></tr>'."\n";
 }
 
-$sizeType = '';
-if($totalSize > 1024) {
+foreach($prefixes as $prefix) {
+    if($totalSize < 1024) break;
     $totalSize = $totalSize / 1024;
-    $sizeType = 'K';
-    if($totalSize > 1024) {
-        $totalSize = $totalSize / 1024;
-        $sizeType = 'M';
-    }
 }
-
-$totalSize = round($totalSize).$sizeType.'B';
+$totalSize = round($totalSize, 2);
+$totalSize = "$totalSize {$prefix}B";
 
 if(count($filesKeys)+3 > 30) {
     $filesRows = 30;

@@ -18,7 +18,11 @@ limitations under the License.
 $updateId = isset($_GET['id']) ? $_GET['id'] : 'c2a1d787-647b-486d-b264-f90f3782cdc6';
 $usePack = isset($_GET['pack']) ? $_GET['pack'] : 0;
 $desiredEdition = isset($_GET['edition']) ? $_GET['edition'] : 0;
+
 $url = "./get.php?id=$updateId&pack=$usePack&edition=$desiredEdition";
+if(!$usePack && !$desiredEdition) {
+    $url = "./findfiles.php?id=$updateId";
+}
 
 if(!$usePack || $desiredEdition == 'updateOnly' || $desiredEdition == 'wubFile') {
     header("Location: $url");

@@ -199,7 +199,7 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
             break;
         case 'SEARCH_NO_RESULTS':
             $errorNumber = 400;
-            $errorFancy = 'No builds could be found for specified query.';
+            $errorFancy = 'No items could be found for specified query.';
             break;
         case 'UNKNOWN_ARCH':
             $errorNumber = 400;
