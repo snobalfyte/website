@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2018 UUP dump authors
+Copyright 2019 UUP dump authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,7 +22,12 @@ $aria2 = isset($_GET['aria2']) ? $_GET['aria2'] : 0;
 if(empty($updateId)) die('Unspecified update id');
 if(empty($file)) die('Unspecified file');
 
+require_once 'shared/main.php';
 require_once 'api/get.php';
+
+if(!checkUpdateIdValidity($updateId)) {
+    die('Incorrect update id');
+}
 
 $files = uupGetFiles($updateId, 0, 0, 1);
 if(isset($files['error'])) {

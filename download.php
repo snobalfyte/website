@@ -15,9 +15,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$updateId = isset($_GET['id']) ? $_GET['id'] : 'c2a1d787-647b-486d-b264-f90f3782cdc6';
+$updateId = isset($_GET['id']) ? $_GET['id'] : null;
 $usePack = isset($_GET['pack']) ? $_GET['pack'] : 0;
 $desiredEdition = isset($_GET['edition']) ? $_GET['edition'] : 0;
+
+require_once 'api/get.php';
+require_once 'api/listlangs.php';
+require_once 'api/listeditions.php';
+require_once 'shared/style.php';
+
+if(!$updateId) {
+    fancyError('UNSPECIFIED_UPDATE', 'downloads');
+    die();
+}
+
+if(!checkUpdateIdValidity($updateId)) {
+    fancyError('INCORRECT_ID', 'downloads');
+    die();
+}
 
 $url = "./get.php?id=$updateId&pack=$usePack&edition=$desiredEdition";
 if(!$usePack && !$desiredEdition) {
@@ -29,11 +44,6 @@ if(!$usePack || $desiredEdition == 'updateOnly' || $desiredEdition == 'wubFile')
     echo "<h1>Moved to <a href=\"$url\">here</a>.";
     die();
 }
-
-require_once 'api/get.php';
-require_once 'api/listlangs.php';
-require_once 'api/listeditions.php';
-require_once 'shared/style.php';
 
 $files = uupGetFiles($updateId, $usePack, $desiredEdition, 2);
 if(isset($files['error'])) {

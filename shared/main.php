@@ -16,7 +16,7 @@ limitations under the License.
 */
 
 // Website information
-$websiteVersion = '3.22.1';
+$websiteVersion = '3.22.2';
 $requiredApi = '1.20.0';
 
 require_once dirname(__FILE__).'/../api/shared/main.php';
@@ -72,6 +72,13 @@ function parseSemVer($version) {
         'patch' => $patch,
         'prerelease' => $prerelease,
         'metadata' => $metadata,
+    );
+}
+
+function checkUpdateIdValidity($updateId) {
+    return preg_match(
+        '/^[\da-fA-F]{8}-([\da-fA-F]{4}-){3}[\da-fA-F]{12}(_rev\.\d+)?$/',
+        $updateId
     );
 }
 
