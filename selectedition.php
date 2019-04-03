@@ -28,6 +28,11 @@ if(!$updateId) {
     die();
 }
 
+if(!preg_match('/^[\da-fA-F]{8}-([\da-fA-F]{4}-){3}[\da-fA-F]{12}(_rev\.\d+)?$/', $updateId)) {
+    fancyError('INCORRECT_ID', 'downloads');
+    die();
+}
+
 $updateInfo = uupUpdateInfo($updateId);
 $updateInfo = isset($updateInfo['info']) ? $updateInfo['info'] : array();
 

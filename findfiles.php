@@ -15,13 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$updateId = isset($_GET['id']) ? $_GET['id'] : 'c2a1d787-647b-486d-b264-f90f3782cdc6';
+$updateId = isset($_GET['id']) ? $_GET['id'] : null;
 $search = isset($_GET['q']) ? $_GET['q'] : null;
 
 require_once 'api/get.php';
 require_once 'api/updateinfo.php';
 require_once 'shared/get.php';
 require_once 'shared/style.php';
+
+if(!$updateId) {
+    fancyError('UNSPECIFIED_UPDATE', 'downloads');
+    die();
+}
 
 if(!preg_match('/^[\da-fA-F]{8}-([\da-fA-F]{4}-){3}[\da-fA-F]{12}(_rev\.\d+)?$/', $updateId)) {
     fancyError('INCORRECT_ID', 'downloads');
