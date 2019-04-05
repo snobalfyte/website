@@ -58,9 +58,10 @@ if($autoDl) {
     $updateArch = isset($info['arch']) ? $info['arch'] : 'UNKNOWN';
 
     $langDir = $usePack ? $usePack : 'all';
+    $editDir = $desiredEdition ? strtolower($desiredEdition) : 'all';
 
     $id = substr($updateId, 0, 8);
-    $archiveName = $updateBuild.'_'.$updateArch.'_'.$langDir.'_'.$id;
+    $archiveName = "{$updateBuild}_{$updateArch}_{$langDir}_{$editDir}_{$id}";
 
     $url = '';
     if(isset($_SERVER['HTTPS'])) {
