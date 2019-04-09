@@ -103,7 +103,7 @@ if($usePack && $desiredEdition) {
 styleUpper('downloads', "Summary for $updateTitle, $selectedLangName, $selectedEditionName");
 ?>
 
-<div class="ui modal virtualeditions">
+<div class="ui normal modal virtualeditions">
     <div class="header">
         Learn more
     </div>
@@ -153,7 +153,7 @@ styleUpper('downloads', "Summary for $updateTitle, $selectedLangName, $selectedE
     </div>
 </div>
 
-<div class="ui tiny modal updates">
+<div class="ui normal tiny modal updates">
     <div class="header">
         Learn more
     </div>
