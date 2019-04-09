@@ -17,6 +17,9 @@ limitations under the License.
 body,
 .ui.segment,
 .ui.table,
+.ui.modal,
+.ui.modal .header,
+.ui.modal .content,
 .pusher {
     background-color: #111 !important;
 }
@@ -29,12 +32,14 @@ body,
     color: #fff;
 }
 
-.ui.segment {
+.ui.segment,
+.ui.modal .header {
     border-color: #2a2a2a !important;
 }
 
 .ui.table th,
 .ui.table thead,
+.ui.modal .actions,
 .ui.message,
 .ui.message .header,
 .ui.steps .active.step,
@@ -53,6 +58,7 @@ body,
 label,
 .ui.table th,
 .ui.table thead,
+.ui.modal .header,
 .ui.steps .step,
 .ui.steps .step .icon,
 .ui.steps .step .title,

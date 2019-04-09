@@ -103,6 +103,80 @@ if($usePack && $desiredEdition) {
 styleUpper('downloads', "Summary for $updateTitle, $selectedLangName, $selectedEditionName");
 ?>
 
+<div class="ui modal virtualeditions">
+    <div class="header">
+        Learn more
+    </div>
+    <div class="content">
+        <p>This option automatically creates additional editions for your
+        selected edition. This process takes a lot of time to complete.</p>
+
+        <p>The Virtual Editions creation process can be done only on the
+        following systems:</p>
+        <ul>
+            <li>Windows 10</li>
+            <li>Windows 8.1 with Windows 10 ADK installed</li>
+            <li>Windows 7 with Windows 10 ADK installed</li>
+        </ul>
+        <p>If you run the conversion script on any other system, then the
+        resulting image will only contain base editions.</p>
+
+        <h4>Editions created from base editions available in UUP sets</h4>
+        <p><b>Windows 10 Home</b></p>
+        <ul>
+            <li>Windows 10 Home Single Language</li>
+        </ul>
+        <p><b>Windows 10 Pro</b></p>
+        <ul>
+            <li>Windows 10 Pro for Workstations</li>
+            <li>Windows 10 Pro Education</li>
+            <li>Windows 10 Education</li>
+            <li>Windows 10 Enterprise</li>
+            <li>Windows 10 Enterprise for Virtual Desktops</li>
+        </ul>
+        <p><b>Windows 10 Pro N</b></p>
+        <ul>
+            <li>Windows 10 Pro for Workstations N</li>
+            <li>Windows 10 Pro Education N</li>
+            <li>Windows 10 Education N</li>
+            <li>Windows 10 Enterprise N</li>
+        </ul>
+
+        <p>All possible editions from this list will be created when using
+        <b><i>All editions</i></b> UUP set.</p>
+    </div>
+    <div class="actions">
+        <div class="ui primary ok button">
+            <i class="checkmark icon icon"></i>
+            OK
+        </div>
+    </div>
+</div>
+
+<div class="ui tiny modal updates">
+    <div class="header">
+        Learn more
+    </div>
+    <div class="content">
+        <p>Updates will be integrated to the converted image only when the
+        conversion script is run on the following systems:</p>
+        <ul>
+            <li>Windows 10</li>
+            <li>Windows 8.1 with Windows 10 ADK installed</li>
+            <li>Windows 7 with Windows 10 ADK installed</li>
+        </ul>
+        <p>If you run the conversion script on any other system, then updates
+        will not be integrated to the resulting image.</p>
+    </div>
+    <div class="actions">
+        <div class="ui primary ok button">
+            <i class="checkmark icon icon"></i>
+            OK
+        </div>
+    </div>
+</div>
+
+
 <div class="ui horizontal divider">
     <h3><i class="briefcase icon"></i>Summary of your selection</h3>
 </div>
@@ -147,6 +221,7 @@ if(!file_exists('packs/'.$updateId.'.json.gz')) {
             Easily download the selected UUP set using aria2, create virtual
             editions and convert it to ISO. Creation process of virtual editions
             takes a lot of time and is only supported on Windows.
+            <a href="javascript:void(0)" onClick="learnMoreVE();">Learn more</a>
         </div>
     </div>
 
@@ -168,7 +243,8 @@ if($hasUpdates) {
     echo <<<INFO
 <h4>Additional updates</h4>
 <p>This UUP set contains additional updates which will be integrated during
-the conversion process significantly increasing the creation time.</p>
+the conversion process significantly increasing the creation time.
+<a href="javascript:void(0)" onClick="learnMoreUpdates();">Learn more</a></p>
 
 <a class="ui tiny labeled icon button" href="./get.php?id=$updateId&pack=0&edition=updateOnly">
     <i class="folder open icon"></i>
@@ -228,6 +304,15 @@ INFO;
       </div>
 </div>
 
+<script>
+function learnMoreVE() {
+    $('.ui.modal.virtualeditions').modal('show');
+}
+
+function learnMoreUpdates() {
+    $('.ui.modal.updates').modal('show');
+}
+</script>
 
 <?php
 styleLower();
