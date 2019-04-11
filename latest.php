@@ -110,6 +110,22 @@ foreach($builds as $val) {
         </div>
 
         <div class="field">
+            <label>Edition of pretended system</label>
+            <select class="ui dropdown" name="sku">
+                <option value="101">Windows 10 Home</option>
+                <option value="48" selected>Windows 10 Pro</option>
+                <option value="121">Windows 10 Education</option>
+                <option value="4">Windows 10 Enterprise</option>
+                <option value="72">Windows 10 Enterprise Evaluation</option>
+                <option value="125">Windows 10 Enterprise LTSC</option>
+                <option value="129">Windows 10 Enterprise LTSC Evaluation</option>
+                <option value="119">Windows 10 Team</option>
+                <option value="7">Windows Server Standard</option>
+                <option value="8">Windows Server Datacenter</option>
+            </select>
+        </div>
+
+        <div class="field">
             <label>Skip ahead flight</label>
             <div class="ui checkbox">
                 <input type="checkbox" name="flight" value="skip">

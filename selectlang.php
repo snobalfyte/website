@@ -172,11 +172,10 @@ if($containsCU) {
 
         if(form.pack.value == 0) {
             form.action = './findfiles.php';
-            btn.className = "ui fluid right labeled icon red button";
-            msg.className = "ui bottom attached warning message";
-            msg.innerHTML = '<i class="warning icon"></i>' +
-                            'Click <i>Next</i> button to send your request ' +
-                            'to Windows Update servers.';
+            msg.className = "ui bottom attached info message";
+            msg.innerHTML = '<i class="info icon"></i>' +
+                            'Click <i>Next</i> button to open page which ' +
+                            'allows finding files.';
 
             file.style.display = "block";
             radioCount = form.q.length;
@@ -185,7 +184,6 @@ if($containsCU) {
             }
         } else {
             form.action = './selectedition.php';
-            btn.className = "ui fluid right labeled icon blue button";
             msg.className = "ui bottom attached icon info message";
             msg.innerHTML = '<i class="paper plane icon"></i>' +
                             '<div class="content">' +
