@@ -135,7 +135,7 @@ function styleUpper($pageType = 'home', $subtitle = '') {
                     </h1>
                 </div>
 
-                <div class="ui one column grid">
+                <div class="ui one column grid page-header-menu">
                     <div class="ui attached secondary inverted menu tablet computer only column">
                         <div class="ui container">
                             $navbarLink
@@ -150,6 +150,8 @@ function styleUpper($pageType = 'home', $subtitle = '') {
                         </div>
                     </div>
                 </div>
+
+                <div class="shadow"></div>
             </div>
 
             <div class="ui container">
