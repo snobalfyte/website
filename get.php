@@ -21,6 +21,7 @@ $aria2 = isset($_GET['aria2']) ? $_GET['aria2'] : 0;
 $autoDl = isset($_GET['autodl']) ? $_GET['autodl'] : 0;
 $usePack = isset($_GET['pack']) ? $_GET['pack'] : 0;
 $desiredEdition = isset($_GET['edition']) ? $_GET['edition'] : 0;
+$desiredVE = isset($_POST['virtualEditions']) ? $_POST['virtualEditions'] : array();
 
 require_once 'api/get.php';
 require_once 'api/updateinfo.php';
@@ -84,10 +85,15 @@ if($autoDl) {
             $build = explode('.', $updateBuild);
             $build = @$build[0];
 
+            if(!count($desiredVE)) {
+                fancyError('UNSPECIFIED_VE', 'downloads');
+                die();
+            }
+
             if($build < 17107) {
                 echo 'Not available for this build.';
             } else {
-                createUupConvertPackage($url, $archiveName, 1);
+                createUupConvertPackage($url, $archiveName, 1, $desiredVE);
             }
 
             break;

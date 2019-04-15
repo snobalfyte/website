@@ -281,6 +281,10 @@ function fancyError($errorCode = 'ERROR', $pageType = 'home', $moreText = 0) {
             $errorNumber = 429;
             $errorFancy = 'You are being rate limited. Please try again in a few seconds.';
             break;
+        case 'UNSPECIFIED_VE':
+            $errorNumber = 400;
+            $errorFancy = 'You have not selected any virtual edition. If do not wish to create virtual editions, please use <i>Download using aria2 and convert</i> option.';
+            break;
         default:
             $errorFancy = '<i>Error message is not available.</i><br><br>'.$errorCode;
             break;

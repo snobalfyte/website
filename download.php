@@ -100,16 +100,79 @@ if($usePack && $desiredEdition) {
     $selectedEditionName = 'All editions';
 }
 
+$filesKeys = array_keys($files);
+$virtualEditions = array();
+
+if(preg_grep('/^Core_.*\.esd/i', $filesKeys)) {
+    $virtualEditions['CoreSingleLanguage'] = 'Home Single Language';
+}
+
+if(preg_grep('/^Professional_.*\.esd/i', $filesKeys)) {
+    $virtualEditions['ProfessionalWorkstation'] = 'Pro for Workstations';
+    $virtualEditions['ProfessionalEducation'] = 'Pro Education';
+    $virtualEditions['Education'] = 'Education';
+    $virtualEditions['Enterprise'] = 'Enterprise';
+    $virtualEditions['ServerRdsh'] = 'Enterprise for Virtual Desktops';
+}
+
+if(preg_grep('/^ProfessionalN_.*\.esd/i', $filesKeys)) {
+    $virtualEditions['ProfessionalWorkstationN'] = 'Pro N for Workstations';
+    $virtualEditions['ProfessionalEducationN'] = 'Pro Education N';
+    $virtualEditions['EducationN'] = 'Education N';
+    $virtualEditions['EnterpriseN'] = 'Enterprise N';
+}
+
 styleUpper('downloads', "Summary for $updateTitle, $selectedLangName, $selectedEditionName");
 ?>
 
-<div class="ui normal modal virtualeditions">
+<form class="ui normal mini modal virtual-editions form" action="<?php echo $url; ?>&autodl=3" method="post">
+    <div class="header">
+        Select virtual editions
+    </div>
+    <div class="content">
+<?php
+foreach($virtualEditions as $key => $val) {
+    echo <<<EOD
+<div class="field">
+    <div class="ui checkbox">
+        <input type="checkbox" name="virtualEditions[]" value="$key">
+        <label>Windows 10 $val</label>
+    </div>
+</div>
+
+EOD;
+}
+
+if(!count($virtualEditions)) echo <<<EOL
+<p>No virtual editions are available for this selection.</p>
+
+EOL;
+?>
+    </div>
+    <div class="actions">
+        <div class="ui ok button">
+            <i class="close icon"></i>
+            Cancel
+        </div>
+<?php
+if(count($virtualEditions)) echo <<<EOD
+<button type="submit" class="ui primary ok button">
+    <i class="checkmark icon"></i>
+    OK
+</button>
+
+EOD;
+?>
+    </div>
+</form>
+
+<div class="ui normal modal virtual-editions-info">
     <div class="header">
         Learn more
     </div>
     <div class="content">
-        <p>This option automatically creates additional editions for your
-        selected edition. This process takes a lot of time to complete.</p>
+        <p>This option enables automatical creation of selected additional
+        editions. This process may take a lot of time to complete.</p>
 
         <p>The Virtual Editions creation process can be done only on the
         following systems:</p>
@@ -121,7 +184,9 @@ styleUpper('downloads', "Summary for $updateTitle, $selectedLangName, $selectedE
         <p>If you run the conversion script on any other system, then the
         resulting image will only contain base editions.</p>
 
-        <h4>Editions created from base editions available in UUP sets</h4>
+        <h4>Editions which can be created from base editions available in UUP
+        sets</h4>
+
         <p><b>Windows 10 Home</b></p>
         <ul>
             <li>Windows 10 Home Single Language</li>
@@ -141,13 +206,10 @@ styleUpper('downloads', "Summary for $updateTitle, $selectedLangName, $selectedE
             <li>Windows 10 Education N</li>
             <li>Windows 10 Enterprise N</li>
         </ul>
-
-        <p>All possible editions from this list will be created when using
-        <b><i>All editions</i></b> UUP set.</p>
     </div>
     <div class="actions">
         <div class="ui primary ok button">
-            <i class="checkmark icon icon"></i>
+            <i class="checkmark icon"></i>
             OK
         </div>
     </div>
@@ -170,7 +232,7 @@ styleUpper('downloads', "Summary for $updateTitle, $selectedLangName, $selectedE
     </div>
     <div class="actions">
         <div class="ui primary ok button">
-            <i class="checkmark icon icon"></i>
+            <i class="checkmark icon"></i>
             OK
         </div>
     </div>
@@ -213,7 +275,7 @@ if(!file_exists('packs/'.$updateId.'.json.gz')) {
             Easily download the selected UUP set using aria2 and convert it to ISO.
         </div>
 
-        <a class="ui top attached fluid labeled icon large <?php echo $disableVE; ?> button" href="<?php echo $url; ?>&autodl=3">
+        <a class="ui top attached fluid labeled icon large <?php echo $disableVE; ?> button" href="javascript:void(0)" onClick="getVirtualEditions();">
             <i class="archive icon"></i>
             Download using aria2, convert and create virtual editions
         </a>
@@ -305,13 +367,19 @@ INFO;
 </div>
 
 <script>
+function getVirtualEditions() {
+    $('.ui.modal.virtual-editions').modal('show');
+}
+
 function learnMoreVE() {
-    $('.ui.modal.virtualeditions').modal('show');
+    $('.ui.modal.virtual-editions-info').modal('show');
 }
 
 function learnMoreUpdates() {
     $('.ui.modal.updates').modal('show');
 }
+
+$('.ui.checkbox').checkbox();
 </script>
 
 <?php

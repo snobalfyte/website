@@ -26,7 +26,12 @@ function sortBySize($a, $b) {
 }
 
 //Create aria2 download package with conversion script
-function createUupConvertPackage($url, $archiveName, $virtualEditions = 0) {
+function createUupConvertPackage(
+    $url,
+    $archiveName,
+    $virtualEditions = 0,
+    $desiredVE = array('Enterprise')
+) {
     $currDir = dirname(__FILE__).'/..';
     $cmdScript = <<<SCRIPT
 @echo off
@@ -167,12 +172,22 @@ fi
 
 SCRIPT;
 
+$desiredVirtualEditions = '';
+$index = 0;
+foreach($desiredVE as $edition) {
+    if($index > 0) $desiredVirtualEditions .= ',';
+    $desiredVirtualEditions .= $edition;
+    $index++;
+}
+
     $convertConfig = <<<CONFIG
 [convert-UUP]
 AutoStart    =1
 AddUpdates   =1
 ResetBase    =0
+NetFx3       =0
 StartVirtual =$virtualEditions
+wim2esd      =0
 SkipISO      =0
 SkipWinRE    =0
 ForceDism    =0
@@ -182,8 +197,9 @@ RefESD       =0
 vAutoStart   =1
 vDeleteSource=0
 vPreserve    =0
+vwim2esd     =0
 vSkipISO     =0
-vAutoEditions=Enterprise,Education,ProfessionalEducation,ProfessionalWorkstation,EnterpriseN,EducationN,ProfessionalEducationN,ProfessionalWorkstationN,CoreSingleLanguage,ServerRdsh
+vAutoEditions=$desiredVirtualEditions
 
 CONFIG;
 
